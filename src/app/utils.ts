@@ -1,10 +1,14 @@
 import {AbstractControl, ValidationErrors} from '@angular/forms';
 import {DcardRawDataType} from './types';
 
+export const urlRegEx = "(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?";
+export const numRegEx = "^[0-9]*$";
+
 interface MediaMeta {
   id: string,
   url: string
 }
+
 export function jsonValidator(control: AbstractControl): ValidationErrors | null {
   try {
     const json: [object] = JSON.parse(control.value);

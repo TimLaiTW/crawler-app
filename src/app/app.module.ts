@@ -14,7 +14,8 @@ import { DcardConfigStep } from './components/steps/dcard_config_step/dcard_conf
 import { DcardExecutionStep } from './components/steps/dcard_execution_step/dcard_execution_step';
 import { DcardResultsStep } from './components/steps/dcard_results_step/dcard_results_step';
 import { PageHeaderSection } from './components/page_header_section/page_header_section';
-import { PttConfigStep } from './components/steps/ptt_config_step/ptt_config_step'
+import { PttConfigStep } from './components/steps/ptt_config_step/ptt_config_step';
+import { PttResultsStep } from './components/steps/ptt_results_step/ptt_results_step'
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { PttConfigStep } from './components/steps/ptt_config_step/ptt_config_ste
     DcardExecutionStep,
     DcardResultsStep,
     PageHeaderSection,
-    PttConfigStep
+    PttConfigStep,
+    PttResultsStep
   ],
   imports: [
     BrowserModule,

@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { DCARD_URL } from '../../../constants';
 import { DcardService } from 'src/app/services/dcard.service';
 import { DcardPageHeader } from '../../../static_string';
+import { numRegEx } from '../../../utils';
 
 @Component({
   selector: 'dcard-config-step',
@@ -21,7 +21,7 @@ export class DcardConfigStep {
     private dcardService: DcardService){
       this.articleIDFormGroup = this.formBuilder.group({
         idCtrl: ['', [
-          Validators.pattern("^[0-9]*$"),
+          Validators.pattern(numRegEx),
           Validators.minLength(9),
           Validators.maxLength(9)
         ]],
@@ -35,7 +35,7 @@ export class DcardConfigStep {
 
   get idCtrl() { return this.articleIDFormGroup.get('idCtrl');}
 
-  async openDcardRawData() {
+  openDcardRawData() {
     this.disableButton = true;
     this.url = this.dcardService.getUrl(this.requestTime)
     window.open(this.url, "_blank");

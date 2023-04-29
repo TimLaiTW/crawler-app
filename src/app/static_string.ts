@@ -33,17 +33,8 @@ export const PttPageHeader = {
         Title: "Enter Ptt URL",
         Descrip: "You must enter the url to get the comments list.",
         Hints: [
-            "1. Please find the article in https://www.pttweb.cc/.",
+            "1. Please find the article in https://www.pttweb.cc.",
             "2. Paste the url of the article to the below input field."
-        ]
-    },
-    Execution: {
-        Title: "Paste article content",
-        Descrip: "Copy the raw data from the opening webpage and paste it at the below text area.",
-        Hints: [
-            "1. You must click the 'Collect data' button to collect the raw data.",
-            "2. After collecting the data, please go back to previous step for the next 30 comments data.",
-            "3. If there is no content in the opening webpage, please go to the next step for results."
         ]
     },
     Results: {

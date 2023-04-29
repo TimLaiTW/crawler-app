@@ -2,16 +2,16 @@
     <mat-horizontal-stepper linear="true" #stepper>
         <mat-step>
             <ng-template matStepLabel>{{PageHeader.Config.Title}}</ng-template>
+            <ptt-config-step></ptt-config-step>
             <div class="horizontal-gutter-extra-large"></div>
             <div class="horizontal-gutter-extra-large"></div>
             <div class="action-btn-group">
-                <button class="action-btn" mat-raised-button matStepperPrevious>Back: next 30 comments</button>
                 <button class="action-btn" mat-raised-button matStepperNext>Next: see results</button>
             </div>
         </mat-step>
         <mat-step>
             <ng-template matStepLabel>{{PageHeader.Results.Title}}</ng-template>
-            <dcard-results-step></dcard-results-step>
+            <ptt-results-step></ptt-results-step>
             <div class="horizontal-gutter-extra-large"></div>
             <div class="horizontal-gutter-extra-large"></div>
             <div class="action-btn-group">

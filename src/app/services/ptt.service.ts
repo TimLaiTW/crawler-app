@@ -20,5 +20,6 @@ export class PttService {
       response => console.log(response)
     );
     // return this.http.get<any>(this.pttUrl);
+    console.log(this.http.get<any>(this.pttUrl))
   }
 }

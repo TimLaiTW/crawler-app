@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DcardService } from '../../../services/dcard.service';
 import { DcardCommentParams } from 'src/app/types';
-import { PageHeader } from '../../../static_string';
+import { DcardPageHeader } from '../../../static_string';
 
 @Component({
   selector: 'dcard-results-step',
@@ -9,7 +9,7 @@ import { PageHeader } from '../../../static_string';
   styleUrls: ['./dcard_results_step.scss']
 })
 export class DcardResultsStep implements OnInit{
-  PageHeader = PageHeader;
+  PageHeader = DcardPageHeader;
   commentDataList: DcardCommentParams[] = [];
   constructor(private dcardService: DcardService){}
 

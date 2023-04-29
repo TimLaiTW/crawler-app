@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { DCARD_URL } from '../../../constants';
 import { DcardService } from 'src/app/services/dcard.service';
-import { PageHeader } from '../../../static_string';
+import { DcardPageHeader } from '../../../static_string';
 
 @Component({
   selector: 'dcard-config-step',
@@ -10,7 +10,7 @@ import { PageHeader } from '../../../static_string';
   styleUrls: ['./dcard_config_step.scss']
 })
 export class DcardConfigStep {
-  PageHeader = PageHeader;
+  PageHeader = DcardPageHeader;
   articleIDFormGroup!: FormGroup;
   requestTime = 0;
   disableButton = true;
@@ -37,13 +37,11 @@ export class DcardConfigStep {
 
   async openDcardRawData() {
     this.disableButton = true;
-    const id = this.idCtrl!.value;
-    this.url = DCARD_URL + id + '/comments';
-    if (this.requestTime){
-      this.url += '?after=' + this.requestTime * 30;
-    }
-    this.requestTime += 1;
+    this.url = this.dcardService.getUrl(this.requestTime)
     window.open(this.url, "_blank");
-    setTimeout(()=>{this.disableButton = false;},5000);
+    setTimeout(()=>{
+      this.disableButton = false;
+      this.requestTime += 1;
+    },5000);
   }
 }

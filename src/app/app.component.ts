@@ -12,11 +12,11 @@ export class AppComponent {
   isPttRawDataButtonDisable = false;
   constructor(private PttService:PttService){}
   showPttRawData() {
-    // this.PttService.getRawData();
+    this.PttService.getRawData();
     this.isPttRawDataButtonDisable = true;
     setTimeout(() => {
       this.isPttRawDataButtonDisable = false;
-    }, 1000);
+    }, 5000);
 
 
     // this.PttService.getRawData()

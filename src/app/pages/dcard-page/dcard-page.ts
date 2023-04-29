@@ -1,7 +1,7 @@
 import { Component, OnInit, SimpleChanges } from '@angular/core';
 import { DcardCommentParams } from '../../types';
 import { DcardService } from 'src/app/services/dcard.service';
-import { PageHeader } from '../../static_string';
+import { DcardPageHeader } from '../../static_string';
 
 @Component({
   selector: 'dcard-page',
@@ -9,7 +9,7 @@ import { PageHeader } from '../../static_string';
   styleUrls: ['./dcard-page.scss']
 })
 export class DcardPage implements OnInit{
-  PageHeader = PageHeader;
+  PageHeader = DcardPageHeader;
   commentsData:DcardCommentParams[] = [];
   comments:string[] = [];
   urls:string[] = [];

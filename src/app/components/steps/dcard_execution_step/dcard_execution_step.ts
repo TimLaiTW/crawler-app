@@ -4,9 +4,9 @@ import { jsonValidator, getMsgFromRawData, getLinkFromRawData } from '../../../u
 import { DcardCommentParams, DcardRawDataType } from '../../../types';
 import { emptyCommentData } from '../../../templates';
 import { MatDialog } from '@angular/material/dialog';
-import { PreviewCommentsDialog } from '../../../components/dialogs/preview-comments-dialog/preview-comments-dialog';
+import { PreviewCommentsDialog } from '../../dialogs/preview-comments-dialog/preview-comments-dialog';
 import { DcardService } from 'src/app/services/dcard.service';
-import { PageHeader } from '../../../static_string';
+import { DcardPageHeader } from '../../../static_string';
 
 @Component({
   selector: 'dcard-execution-step',
@@ -14,7 +14,7 @@ import { PageHeader } from '../../../static_string';
   styleUrls: ['./dcard_execution_step.scss']
 })
 export class DcardExecutionStep {
-  PageHeader = PageHeader;
+  PageHeader = DcardPageHeader;
   articleJSONFormGroup!: FormGroup;
   commentsData:DcardCommentParams[] = [];
   

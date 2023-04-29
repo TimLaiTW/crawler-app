@@ -1,8 +1,13 @@
-<h1 mat-dialog-title>WIP...</h1>
-<div mat-dialog-content>
-  
-</div>
-<div mat-dialog-actions>
-  <!-- <button mat-button mat-dialog-close>No</button>
-  <button mat-button mat-dialog-close cdkFocusInitial>Ok</button> -->
+<div class="dialog-container">
+  <h1 mat-dialog-title>Comment list</h1>
+  <div mat-dialog-content>
+    <ng-container *ngFor="let comment of data.comments; index as i">
+      <div>
+        {{i+1}} : {{comment}}
+      </div>
+    </ng-container>
+  </div>
+  <div class="dialog-actions-btn-group" mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close cdkFocusInitial>Ok</button>
+  </div>
 </div>

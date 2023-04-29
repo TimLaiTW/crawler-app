@@ -1,19 +1,29 @@
 <div class="main-content">
+    <page-header-section
+        [header]="PageHeader.Config.Title"
+        [descrp]="PageHeader.Config.Descrip"
+        [hints]="PageHeader.Config.Hints"></page-header-section>
     <form [formGroup]="articleIDFormGroup">
-        <mat-form-field class="article-id-form" appearance="fill">
+        <mat-form-field class="article-id-form" appearance="outline">
             <mat-label>Article ID</mat-label>
             <input matInput formControlName="idCtrl" placeholder="Please enter article ID">
             <button *ngIf="idCtrl?.value != ''" matSuffix mat-icon-button aria-label="Clear" (click)="idCtrl?.setValue('')">
                 <mat-icon>close</mat-icon>
             </button>
-            <mat-error *ngIf="idCtrl && (idCtrl.errors?.['minlength'] || idCtrl.errors?.['maxlength'])">
+            <mat-error class="err-msg" *ngIf="idCtrl && (idCtrl.errors?.['minlength'] || idCtrl.errors?.['maxlength'])">
                 ID should be 9 digits.
             </mat-error>
-            <mat-error *ngIf="idCtrl && idCtrl.errors?.['pattern']">
+            <mat-error class="err-msg" *ngIf="idCtrl && idCtrl.errors?.['pattern']">
                 ID should be numbers only.
             </mat-error>
         </mat-form-field>
-        <div class="vertical-gutter-extra-small"></div>
-        <button mat-raised-button (click)="openDcardRawData()" [disabled]="idCtrl?.value == '' || idCtrl?.invalid">Open Dcard JSON</button>
     </form>
+    <div class="horizontal-gutter-medium-small"></div>
+    <button mat-raised-button color="primary" class="cmt-data-btn" (click)="openDcardRawData()" [disabled]="disableButton">Open Comments Data</button>
+    <ng-container *ngIf="url">
+        <div class="horizontal-gutter-extra-small"></div>
+        <div class="hint-msg">
+            {{url}} has been opened.
+        </div>
+    </ng-container>
 </div>

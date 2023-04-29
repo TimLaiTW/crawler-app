@@ -12,7 +12,8 @@ import { CommentsTable } from './components/table/comments-table/comments-table'
 import { LinkTable } from './components/table/link-table/link-table';
 import { DcardConfigStep } from './components/steps/dcard_config_step/dcard_config_step';
 import { DcardExecutionStep } from './components/steps/dcard-execution-step/dcard_execution_step';
-import { DcardResultsStep } from './components/steps/dcard-results-step/dcard_results_step'
+import { DcardResultsStep } from './components/steps/dcard-results-step/dcard_results_step';
+import { PageHeaderSection } from './components/page_header_section/page_header_section'
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { DcardResultsStep } from './components/steps/dcard-results-step/dcard_re
     LinkTable,
     DcardConfigStep,
     DcardExecutionStep,
-    DcardResultsStep
+    DcardResultsStep,
+    PageHeaderSection
   ],
   imports: [
     BrowserModule,

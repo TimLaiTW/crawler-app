@@ -6,6 +6,7 @@ import { emptyCommentData } from '../../../templates';
 import { MatDialog } from '@angular/material/dialog';
 import { PreviewCommentsDialog } from '../../../components/dialogs/preview-comments-dialog/preview-comments-dialog';
 import { DcardService } from 'src/app/services/dcard.service';
+import { PageHeader } from '../../../static_string';
 
 @Component({
   selector: 'dcard-execution-step',
@@ -13,6 +14,7 @@ import { DcardService } from 'src/app/services/dcard.service';
   styleUrls: ['./dcard_execution_step.scss']
 })
 export class DcardExecutionStep {
+  PageHeader = PageHeader;
   articleJSONFormGroup!: FormGroup;
   commentsData:DcardCommentParams[] = [];
   
@@ -29,8 +31,12 @@ export class DcardExecutionStep {
   get jsonCtrl() { return this.articleJSONFormGroup.get('jsonCtrl');}
 
   previewComments(){
+    const commentList = this.commentsData.map(comments => comments.comment).filter(comment => comment.length);
     this.dialog.open(PreviewCommentsDialog, {
-      width: '250px',
+      data: {
+        comments: commentList || []
+      },
+      width: '50rem',
     });
   }
 

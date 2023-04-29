@@ -23,13 +23,10 @@ export class DcardService {
 	}
 
   setRawData(rawData: string){
-    console.log('set raw data')
     this.rawDataChange.next(rawData);
   }
 
   isSameRawData(rawData: string): boolean{
-    console.log('old : ', this.rawDataChange.value);
-    console.log('new : ', rawData);
     return rawData == this.rawDataChange.value;
   }
 }

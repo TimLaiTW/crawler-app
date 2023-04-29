@@ -1,16 +1,15 @@
-import { Component, Host, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { DCARD_URL } from '../../constants';
-import { jsonValidator, getMsgFromRawData, getLinkFromRawData } from '../../utils';
+import { Component, OnInit, SimpleChanges } from '@angular/core';
 import { DcardCommentParams } from '../../types';
 import { DcardService } from 'src/app/services/dcard.service';
+import { PageHeader } from '../../static_string';
 
 @Component({
   selector: 'dcard-page',
   templateUrl: './dcard-page.html',
   styleUrls: ['./dcard-page.scss']
 })
-export class DcardPage implements OnInit, OnChanges{
+export class DcardPage implements OnInit{
+  PageHeader = PageHeader;
   commentsData:DcardCommentParams[] = [];
   comments:string[] = [];
   urls:string[] = [];
@@ -20,12 +19,7 @@ export class DcardPage implements OnInit, OnChanges{
     this.dcardService.commentDataList.subscribe(dataList => 
       {
         this.commentsData = dataList
-        console.log(this.commentsData.length);
       }
       );
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log('changeeee')
   }
 }

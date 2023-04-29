@@ -1,7 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
+html, body { 
+    height: 100%; 
+    font-size: 62.5%; // 1rem = 10px
+}
+    
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.horizontal-gutter-extra-large {
+    width: 100%;
+    height: 5.6rem;
+}
 
 .horizontal-gutter-large {
     width: 100%;
@@ -58,7 +67,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .action-btn-group {
-    padding: 2rem 1rem;
+    padding: 2rem 0;
     display: flex;
     gap: 3rem;
 }
@@ -67,6 +76,23 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     flex: 1;
 }
 
+.stepper {
+    padding: 0 20rem;
+}
+
 .main-content {
+    padding: 2rem 0;
+}
+
+.err-msg, .hint-msg {
+    font-size: 12px;
+    height: 14px;
+}
+
+.dialog-container {
     padding: 1rem;
+}
+
+.capital {
+    text-transform: capitalize;
 }

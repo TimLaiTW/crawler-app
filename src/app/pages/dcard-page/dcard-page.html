@@ -1,25 +1,33 @@
-<mat-horizontal-stepper linear="false" #stepper>
-    <mat-step [completed]="false">
-        <ng-template matStepLabel>Get article content</ng-template>
-        <dcard-config-step></dcard-config-step>
-        <div class="action-btn-group">
-            <button class="action-btn" mat-raised-button matStepperNext>Next: process raw data</button>
-        </div>
-    </mat-step>
-    <mat-step [completed]="false">
-        <ng-template matStepLabel>Paste article content</ng-template>
-        <dcard-execution-step></dcard-execution-step>
-        <div class="action-btn-group">
-            <button class="action-btn" mat-raised-button matStepperPrevious>Back: next 30 comments</button>
-            <button class="action-btn" mat-raised-button matStepperNext [disabled]="!commentsData.length">Next: see results</button>
-        </div>
-    </mat-step>
-    <mat-step [completed]="false">
-        <ng-template matStepLabel>Generate comment table</ng-template>
-        <dcard-results-step></dcard-results-step>
-        <div class="action-btn-group">
-            <button class="action-btn" mat-raised-button matStepperPrevious>Back: add more comments</button>
-            <button class="action-btn" mat-raised-button (click)="stepper.reset()">Reset</button>
-        </div>
-    </mat-step>
-</mat-horizontal-stepper>
+<div class="stepper">
+    <mat-horizontal-stepper linear="true" #stepper>
+        <mat-step [completed]="false" optional>
+            <ng-template matStepLabel>{{PageHeader.Config.Title}}</ng-template>
+            <dcard-config-step></dcard-config-step>
+            <div class="horizontal-gutter-extra-large"></div>
+            <div class="horizontal-gutter-extra-large"></div>
+            <div class="action-btn-group">
+                <button class="action-btn" mat-raised-button matStepperNext>Next: process raw data</button>
+            </div>
+        </mat-step>
+        <mat-step [completed]="false">
+            <ng-template matStepLabel>{{PageHeader.Execution.Title}}</ng-template>
+            <dcard-execution-step></dcard-execution-step>
+            <div class="horizontal-gutter-extra-large"></div>
+            <div class="horizontal-gutter-extra-large"></div>
+            <div class="action-btn-group">
+                <button class="action-btn" mat-raised-button matStepperPrevious>Back: next 30 comments</button>
+                <button class="action-btn" mat-raised-button matStepperNext [disabled]="!commentsData.length">Next: see results</button>
+            </div>
+        </mat-step>
+        <mat-step [completed]="false">
+            <ng-template matStepLabel>{{PageHeader.Results.Title}}</ng-template>
+            <dcard-results-step></dcard-results-step>
+            <div class="horizontal-gutter-extra-large"></div>
+            <div class="horizontal-gutter-extra-large"></div>
+            <div class="action-btn-group">
+                <button class="action-btn" mat-raised-button matStepperPrevious>Back: add more comments</button>
+                <button class="action-btn" mat-raised-button (click)="stepper.reset()">Reset</button>
+            </div>
+        </mat-step>
+    </mat-horizontal-stepper>
+</div>

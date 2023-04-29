@@ -1,4 +1,8 @@
 <div class="main-content">
+    <page-header-section
+        [header]="PageHeader.Execution.Title"
+        [descrp]="PageHeader.Execution.Descrip"
+        [hints]="PageHeader.Execution.Hints"></page-header-section>
     <div class="form-wrapper">
         <form [formGroup]="articleJSONFormGroup">
             <mat-form-field appearance="outline">
@@ -12,7 +16,7 @@
             </mat-form-field>
         </form>
     </div>
-    <button mat-raised-button (click)="collectRawData()" [disabled]="jsonCtrl?.value == '' || jsonCtrl?.invalid">Collect data</button>
+    <button mat-raised-button color="primary" (click)="collectRawData()" [disabled]="jsonCtrl?.value == '' || jsonCtrl?.invalid">Collect data</button>
     <div class="vertical-gutter-extra-small"></div>
-    <button mat-raised-button (click)="previewComments()" [disabled]="!commentsData.length">Preview comments</button>
+    <button mat-raised-button color="primary" (click)="previewComments()" [disabled]="!commentsData.length">Preview comments</button>
 </div>

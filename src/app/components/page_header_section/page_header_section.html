@@ -1,0 +1,10 @@
+<div class="header-section">
+    <span class="page-header">{{header}}</span>
+    <div class="horizontal-gutter-medium-small"></div>
+    <span class="page-description">{{descrp}}</span>
+    <div class="horizontal-gutter-extra-small"></div>
+    <div class="page-hint" *ngIf="hints">
+        <span>Note : </span>
+        <div *ngFor="let hint of hints">{{hint}}</div>
+    </div>
+</div>

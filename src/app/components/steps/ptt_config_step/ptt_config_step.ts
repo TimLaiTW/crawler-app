@@ -3,6 +3,7 @@ import { PttPageHeader } from 'src/app/static_string';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { PttService } from 'src/app/services/ptt.service';
 import { urlRegEx } from '../../../utils';
+import { UrlResponse } from 'src/app/types';
 
 @Component({
   selector: 'ptt-config-step',
@@ -13,7 +14,7 @@ export class PttConfigStep {
   PageHeader = PttPageHeader;
   urlFormGroup!: FormGroup;
   disableButton = true;
-
+  // rawData: UrlResponse = {'status':'', 'rawData':''};
   constructor(
     private formBuilder: FormBuilder,
     private pttService: PttService){
@@ -33,7 +34,7 @@ export class PttConfigStep {
 
   getRawData(){
     this.disableButton = true;
-    this.pttService.getRawData();
+    this.pttService.getRawData().subscribe(data => this.pttService.setRawData(data));
     setTimeout(() => {}, 5000);
   }
 }

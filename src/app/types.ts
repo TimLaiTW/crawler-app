@@ -33,3 +33,8 @@ export interface CommentTableColumn {
 export interface LinkTableColumn {
     link: string
 }
+
+export interface UrlResponse {
+    status: string, 
+    rawData: string
+}

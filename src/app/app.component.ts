@@ -13,7 +13,6 @@ export class AppComponent {
   constructor(private PttService:PttService){}
   showPttRawData() {
     // this.PttService.getRawData();
-    console.log('button clicked');
     this.isPttRawDataButtonDisable = true;
     setTimeout(() => {
       this.isPttRawDataButtonDisable = false;
@@ -23,7 +22,6 @@ export class AppComponent {
     // this.PttService.getRawData()
     //   .subscribe((data: any) => {
     //     this.pttRawData = data;
-    //     console.log(data)
     //   });
   }
 }

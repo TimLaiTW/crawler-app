@@ -10,7 +10,5 @@ export interface DialogData {
   styleUrls: ['./preview-comments-dialog.scss']
 })
 export class PreviewCommentsDialog {
-  constructor(public dialogRef: MatDialogRef<PreviewCommentsDialog>, @Inject(MAT_DIALOG_DATA) public data: DialogData){
-    console.log('comments : ', data.comments);
-  }
+  constructor(public dialogRef: MatDialogRef<PreviewCommentsDialog>, @Inject(MAT_DIALOG_DATA) public data: DialogData){}
 }

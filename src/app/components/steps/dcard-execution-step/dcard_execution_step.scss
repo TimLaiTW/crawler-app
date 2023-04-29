@@ -1,0 +1,15 @@
+mat-form-field {
+    margin: auto;
+}
+mat-form-field ::ng-deep .mdc-text-field {
+    // width: 40rem;
+    width: 20rem;
+}
+
+form {
+    padding: 1rem;
+}
+
+.form-wrapper {
+    margin: auto;
+}

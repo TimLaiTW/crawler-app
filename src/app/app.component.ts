@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {PttService} from './services/ptt.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,22 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'crawlers';
+  pttRawData:any;
+  isPttRawDataButtonDisable = false;
+  constructor(private PttService:PttService){}
+  showPttRawData() {
+    // this.PttService.getRawData();
+    console.log('button clicked');
+    this.isPttRawDataButtonDisable = true;
+    setTimeout(() => {
+      this.isPttRawDataButtonDisable = false;
+    }, 1000);
+
+
+    // this.PttService.getRawData()
+    //   .subscribe((data: any) => {
+    //     this.pttRawData = data;
+    //     console.log(data)
+    //   });
+  }
 }

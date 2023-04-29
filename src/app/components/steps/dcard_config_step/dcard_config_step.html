@@ -1,0 +1,19 @@
+<div class="main-content">
+    <form [formGroup]="articleIDFormGroup">
+        <mat-form-field class="article-id-form" appearance="fill">
+            <mat-label>Article ID</mat-label>
+            <input matInput formControlName="idCtrl" placeholder="Please enter article ID">
+            <button *ngIf="idCtrl?.value != ''" matSuffix mat-icon-button aria-label="Clear" (click)="idCtrl?.setValue('')">
+                <mat-icon>close</mat-icon>
+            </button>
+            <mat-error *ngIf="idCtrl && (idCtrl.errors?.['minlength'] || idCtrl.errors?.['maxlength'])">
+                ID should be 9 digits.
+            </mat-error>
+            <mat-error *ngIf="idCtrl && idCtrl.errors?.['pattern']">
+                ID should be numbers only.
+            </mat-error>
+        </mat-form-field>
+        <div class="vertical-gutter-extra-small"></div>
+        <button mat-raised-button (click)="openDcardRawData()" [disabled]="idCtrl?.value == '' || idCtrl?.invalid">Open Dcard JSON</button>
+    </form>
+</div>

@@ -1,0 +1,18 @@
+<div class="main-content">
+    <div class="form-wrapper">
+        <form [formGroup]="articleJSONFormGroup">
+            <mat-form-field appearance="outline">
+                <textarea matInput formControlName="jsonCtrl" cols="10" rows="10" required placeholder="Paste the content here."></textarea>
+                <mat-error *ngIf="jsonCtrl && (jsonCtrl.errors?.['required'])">
+                    Content is required.
+                </mat-error>
+                <mat-error *ngIf="jsonCtrl && jsonCtrl.value != '' && jsonCtrl.errors?.['jsonInvalid']">
+                    Content format is incorrect.
+                </mat-error>
+            </mat-form-field>
+        </form>
+    </div>
+    <button mat-raised-button (click)="collectRawData()" [disabled]="jsonCtrl?.value == '' || jsonCtrl?.invalid">Collect data</button>
+    <div class="vertical-gutter-extra-small"></div>
+    <button mat-raised-button (click)="previewComments()" [disabled]="!commentsData.length">Preview comments</button>
+</div>

@@ -1,6 +1,6 @@
 <div class="stepper">
     <mat-horizontal-stepper linear="true" #stepper>
-        <mat-step [completed]="false" optional>
+        <mat-step optional>
             <ng-template matStepLabel>{{PageHeader.Config.Title}}</ng-template>
             <dcard-config-step></dcard-config-step>
             <div class="horizontal-gutter-extra-large"></div>
@@ -9,7 +9,7 @@
                 <button class="action-btn" mat-raised-button matStepperNext>Next: process raw data</button>
             </div>
         </mat-step>
-        <mat-step [completed]="false">
+        <mat-step [completed]="commentsData.length ? true : false">
             <ng-template matStepLabel>{{PageHeader.Execution.Title}}</ng-template>
             <dcard-execution-step></dcard-execution-step>
             <div class="horizontal-gutter-extra-large"></div>
@@ -19,7 +19,7 @@
                 <button class="action-btn" mat-raised-button matStepperNext [disabled]="!commentsData.length">Next: see results</button>
             </div>
         </mat-step>
-        <mat-step [completed]="false">
+        <mat-step>
             <ng-template matStepLabel>{{PageHeader.Results.Title}}</ng-template>
             <dcard-results-step></dcard-results-step>
             <div class="horizontal-gutter-extra-large"></div>

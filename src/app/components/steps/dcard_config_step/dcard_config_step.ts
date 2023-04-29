@@ -14,7 +14,7 @@ export class DcardConfigStep {
   articleIDFormGroup!: FormGroup;
   requestTime = 0;
   disableButton = true;
-  url = 'https://www.dcard.tw/service/api/v2/posts/241886721/comments';
+  url = '';
 
   constructor(
     private formBuilder: FormBuilder,

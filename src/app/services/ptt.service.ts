@@ -1,25 +1,33 @@
 import { Injectable, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
+import { PTT_API } from '../constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PttService {
-  // @Input() pttUrl:string = '';
-  pttUrl:string = 'http://localhost:5000/api/v1/ptt_url';
+  // public commentDataListChange = new BehaviorSubject<PttCommentParams[]>([]);
+  private urlChange = new BehaviorSubject<string>('');
+  private rawDataChange = new BehaviorSubject<Object>('');
+  url = this.urlChange.asObservable();
+  rawData = this.rawDataChange.asObservable();
   constructor(private http: HttpClient) { }
 
+  setUrl(url:string){
+    this.urlChange.next(url);
+  }
+
+  setRawData(rawData: Object){
+    this.rawDataChange.next(rawData);
+  }
+
   getRawData() {
-    console.log('calling ptt api');
     const data = {
-      article_url: 'https://www.pttweb.cc/bbs/Gossiping/M.1682073230.A.2C7'
+      article_url: this.urlChange.value
     };
-    this.http.post(this.pttUrl, data).subscribe(
-      response => console.log(response)
+    this.http.post(PTT_API, data).subscribe(
+      response => this.setRawData(response)
     );
-    // return this.http.get<any>(this.pttUrl);
-    console.log(this.http.get<any>(this.pttUrl))
   }
 }

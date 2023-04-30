@@ -12,6 +12,7 @@ interface MediaMeta {
 export function jsonValidator(control: AbstractControl): ValidationErrors | null {
   try {
     const json: [object] = JSON.parse(control.value);
+    let typeCheck = json.length > 0;
 
     // Due to comments could be deleted and results in no content property.
     // We're not including content for initial validation in dcard type.
@@ -22,9 +23,10 @@ export function jsonValidator(control: AbstractControl): ValidationErrors | null
     ];
 
     json.forEach(element => {
-      const typeCheck = dcardType.every( prop => Object.keys(element).includes(prop));
-      if (!typeCheck) { throw "Invalid format"}
+      typeCheck = dcardType.every( prop => Object.keys(element).includes(prop));
     });
+
+    if (!typeCheck) { throw "Invalid format" }
   } catch (e) {
     return { jsonInvalid: true };
   }

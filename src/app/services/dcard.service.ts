@@ -37,6 +37,17 @@ export class DcardService {
     return requestUrl;
   }
 
+  resetAll(){
+    this.url = '';
+    this.commentDataListChange.next([]);
+    this.articleIDChange.next('');
+    this.rawDataChange.next('');
+  }
+
+  arePropsEmpty(){
+    return !this.commentDataListChange.value.length && !this.articleIDChange.value && !this.rawDataChange.value;
+  }
+
   isSameRawData(rawData: string): boolean{
     return rawData == this.rawDataChange.value;
   }

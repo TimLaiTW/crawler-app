@@ -18,5 +18,5 @@
     </div>
     <button mat-raised-button color="primary" (click)="collectRawData()" [disabled]="jsonCtrl?.value == '' || jsonCtrl?.invalid">Collect data</button>
     <div class="vertical-gutter-extra-small"></div>
-    <button mat-raised-button color="primary" (click)="previewComments()" [disabled]="!commentsData.length">Preview comments</button>
+    <button mat-raised-button color="primary" (click)="previewComments()" [disabled]="!previewCommentList.length">Preview comments</button>
 </div>

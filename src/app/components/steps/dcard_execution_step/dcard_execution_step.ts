@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { jsonValidator, getMsgFromRawData, getLinkFromRawData } from '../../../utils';
 import { DcardCommentParams, DcardRawDataType } from '../../../types';
@@ -13,15 +13,15 @@ import { DcardPageHeader } from '../../../static_string';
   templateUrl: './dcard_execution_step.html',
   styleUrls: ['./dcard_execution_step.scss']
 })
-export class DcardExecutionStep {
+export class DcardExecutionStep implements OnInit{
   PageHeader = DcardPageHeader;
   articleJSONFormGroup!: FormGroup;
-  commentsData:DcardCommentParams[] = [];
-  
+  previewCommentList:string[] = [];
+
   constructor(
     public dialog: MatDialog,
     private formBuilder: FormBuilder,
-    private dcardService: DcardService
+    readonly dcardService: DcardService
   ){
     this.articleJSONFormGroup = this.formBuilder.group({
       jsonCtrl: ['', [jsonValidator]],
@@ -30,11 +30,14 @@ export class DcardExecutionStep {
 
   get jsonCtrl() { return this.articleJSONFormGroup.get('jsonCtrl');}
 
+  ngOnInit(){
+		this.dcardService.commentDataList.subscribe(dataList => this.previewCommentList = dataList.map(comments => comments.comment).filter(comment => comment.length));
+	}
+
   previewComments(){
-    const commentList = this.commentsData.map(comments => comments.comment).filter(comment => comment.length);
     this.dialog.open(PreviewCommentsDialog, {
       data: {
-        comments: commentList || []
+        comments: this.previewCommentList || []
       },
       width: '50rem',
     });
@@ -59,7 +62,7 @@ export class DcardExecutionStep {
     if (continueUnmarshal){
       const jsonParse = JSON.parse(this.jsonCtrl.value)
       const rawDataArray = Object.keys(jsonParse).map(key => jsonParse[key]);
-      const commentRaw = rawDataArray.flatMap(rawData => {
+      const commentRaws : DcardCommentParams[] = rawDataArray.flatMap(rawData => {
         if (rawData[DcardRawDataType.CONTENT]){
           const commentData:DcardCommentParams = {
             comment: getMsgFromRawData(rawData[DcardRawDataType.CONTENT]),
@@ -73,8 +76,7 @@ export class DcardExecutionStep {
         return [];
       });
       
-      this.commentsData.push(...commentRaw);
-      this.dcardService.setCommentDataList(this.commentsData);
+      this.dcardService.setCommentDataList(commentRaws);
       this.jsonCtrl.setValue('');
     }
   }

@@ -13,12 +13,13 @@ export class DcardConfigStep {
   PageHeader = DcardPageHeader;
   articleIDFormGroup!: FormGroup;
   requestTime = 0;
-  disableButton = true;
+  disableCollectBtn = true;
+  disableResettBtn = true;
   url = '';
 
   constructor(
-    private formBuilder: FormBuilder,
-    private dcardService: DcardService){
+    readonly formBuilder: FormBuilder,
+    readonly dcardService: DcardService){
       this.articleIDFormGroup = this.formBuilder.group({
         idCtrl: ['', [
           Validators.pattern(numRegEx),
@@ -29,18 +30,18 @@ export class DcardConfigStep {
 
       this.articleIDFormGroup.get('idCtrl')?.valueChanges.subscribe((value: string) => {
         this.dcardService.setArticleId(value);
-        this.disableButton = this.idCtrl?.value == '' || this.idCtrl?.invalid ? true : false;
+        this.disableCollectBtn = this.idCtrl?.value == '' || this.idCtrl?.invalid ? true : false;
       });
     }
 
   get idCtrl() { return this.articleIDFormGroup.get('idCtrl');}
 
   openDcardRawData() {
-    this.disableButton = true;
+    this.disableCollectBtn = true;
     this.url = this.dcardService.getUrl(this.requestTime)
     window.open(this.url, "_blank");
     setTimeout(()=>{
-      this.disableButton = false;
+      this.disableCollectBtn = false;
       this.requestTime += 1;
     },5000);
   }

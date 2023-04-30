@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PttService } from 'src/app/services/ptt.service';
 import { UrlResponse } from 'src/app/types';
+
 @Component({
   selector: 'ptt-results-step',
   templateUrl: './ptt_results_step.html',

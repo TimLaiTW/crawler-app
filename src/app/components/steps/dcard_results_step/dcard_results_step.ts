@@ -11,7 +11,7 @@ import { DcardPageHeader } from '../../../static_string';
 export class DcardResultsStep implements OnInit{
   PageHeader = DcardPageHeader;
   commentDataList: DcardCommentParams[] = [];
-  constructor(private dcardService: DcardService){}
+  constructor(readonly dcardService: DcardService){}
 
   ngOnInit(){
 		this.dcardService.commentDataList.subscribe(dataList => this.commentDataList = dataList);

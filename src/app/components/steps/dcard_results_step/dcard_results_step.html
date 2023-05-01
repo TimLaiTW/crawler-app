@@ -3,7 +3,10 @@
         [header]="PageHeader.Results.Title"
         [descrp]="PageHeader.Results.Descrip"
         [hints]="PageHeader.Results.Hints"></page-header-section>
-    <comments-table [comments]="getComments()"></comments-table>
+    <div class="action-btn-group">
+        <button mat-raised-button color="primary" (click)="exportToCsv()">Download Csv file</button>
+    </div>
+    <comments-table [comments]="commentList"></comments-table>
     <div class="vertical-gutter-small"></div>
-    <link-table [links]="getLinks()"></link-table>
+    <link-table [links]="linkList"></link-table>
 </div>

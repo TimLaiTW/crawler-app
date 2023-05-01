@@ -7,17 +7,14 @@ import { DCARD_URL } from '../constants';
   providedIn: 'root'
 })
 export class DcardService {
-  public commentDataListChange = new BehaviorSubject<DcardCommentParams[]>([]);
-  private articleIDChange = new BehaviorSubject<string>('');
-  private rawDataChange = new BehaviorSubject<string>('');
-  private url = '';
-  
-  commentDataList = this.commentDataListChange.asObservable();
-  articleID = this.articleIDChange.asObservable();
-  rawData = this.rawDataChange.asObservable();
+  private readonly commentDataListChange = new BehaviorSubject<DcardCommentParams[]>([]);
+  private readonly articleIDChange = new BehaviorSubject<string>('');
+  private readonly rawDataChange = new BehaviorSubject<string>('');
 
-	setCommentDataList(comments: DcardCommentParams[]){
-		this.commentDataListChange.next(comments);
+  commentDataList = this.commentDataListChange.asObservable();
+
+	setCommentDataList(commentsData: DcardCommentParams[]){
+		this.commentDataListChange.next(commentsData);
 	}
 
 	setArticleId(articleID: string){
@@ -29,26 +26,25 @@ export class DcardService {
   }
 
   getUrl(count: number){
-    this.url = DCARD_URL + this.articleIDChange.value + '/comments';
-    let requestUrl = this.url;
-    if (count){
-      requestUrl += '?after=' + count * 30;
-    }
-    return requestUrl;
+    const baseUrl = `${DCARD_URL}${this.articleIDChange.getValue()}/comments`;
+    return count ? `${baseUrl}?after=${count * 30}` : baseUrl;
   }
 
   resetAll(){
-    this.url = '';
     this.commentDataListChange.next([]);
     this.articleIDChange.next('');
     this.rawDataChange.next('');
   }
 
   arePropsEmpty(){
-    return !this.commentDataListChange.value.length && !this.articleIDChange.value && !this.rawDataChange.value;
+    return (
+      !this.commentDataListChange.value.length && 
+      !this.articleIDChange.getValue() && 
+      !this.rawDataChange.getValue()
+    );
   }
 
   isSameRawData(rawData: string): boolean{
-    return rawData == this.rawDataChange.value;
+    return rawData == this.rawDataChange.getValue();
   }
 }

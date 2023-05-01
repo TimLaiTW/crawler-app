@@ -9,14 +9,14 @@
                 <button class="action-btn" mat-raised-button matStepperNext>Next: process raw data</button>
             </div>
         </mat-step>
-        <mat-step [completed]="commentsData.length ? true : false">
+        <mat-step [completed]="commentDataList.length > 0">
             <ng-template matStepLabel>{{PageHeader.Execution.Title}}</ng-template>
             <dcard-execution-step></dcard-execution-step>
             <div class="horizontal-gutter-extra-large"></div>
             <div class="horizontal-gutter-extra-large"></div>
             <div class="action-btn-group">
                 <button class="action-btn" mat-raised-button matStepperPrevious>Back: next 30 comments</button>
-                <button class="action-btn" mat-raised-button matStepperNext [disabled]="!commentsData.length">Next: see results</button>
+                <button class="action-btn" mat-raised-button matStepperNext [disabled]="!commentDataList.length">Next: see results</button>
             </div>
         </mat-step>
         <mat-step>

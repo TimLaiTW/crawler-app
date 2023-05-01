@@ -14,7 +14,6 @@ export class DcardConfigStep {
   articleIDFormGroup!: FormGroup;
   requestTime = 0;
   disableCollectBtn = true;
-  disableResettBtn = true;
   url = '';
 
   constructor(

@@ -1,5 +1,6 @@
-import {AbstractControl, ValidationErrors} from '@angular/forms';
-import {DcardRawDataType} from './types';
+import { AbstractControl, ValidationErrors } from '@angular/forms';
+import { DcardRawDataType, TableColumnType, CommentParamsType, SocialCommunity } from './types';
+import { saveAs } from 'file-saver';
 
 export const urlRegEx = "(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?";
 export const numRegEx = "^[0-9]*$";
@@ -50,4 +51,24 @@ export function getLinkFromRawData(mediaMeta:MediaMeta[]):string[]{
   });
   
   return mediaData.map(media => media['url']);
+}
+
+function exportFile(data:any, fileType:string, platform: SocialCommunity){
+  const blob = new Blob([data], {type: fileType});
+  const fileName = platform + '_comments.csv';
+  saveAs(blob, fileName);
+}
+
+export function exportToCsv(commentList: string[], linkList: string[], platform: SocialCommunity): void {
+  const commentHeader: TableColumnType = TableColumnType.COMMENT;
+  const linkHeader: TableColumnType = TableColumnType.LINK;
+
+  const data = [
+    [commentHeader, ...commentList],
+    ['', ''],
+    [linkHeader, ...linkList]
+  ];
+
+  const csvContent = data.map(row => row.join('\n')).join('\n');
+  exportFile(csvContent, 'text/csv', platform);
 }

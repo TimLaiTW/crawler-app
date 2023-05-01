@@ -28,16 +28,19 @@ export class DcardExecutionStep implements OnInit{
     });
   }
 
-  get jsonCtrl() { return this.articleJSONFormGroup.get('jsonCtrl');}
+  ngOnInit(): void {
+    this.dcardService.commentDataList.subscribe(dataList => {
+      this.previewCommentList = dataList.map(
+        comments => comments.comment).filter(comment => comment.length);
+    });  
+  }
 
-  ngOnInit(){
-		this.dcardService.commentDataList.subscribe(dataList => this.previewCommentList = dataList.map(comments => comments.comment).filter(comment => comment.length));
-	}
+  get jsonCtrl() { return this.articleJSONFormGroup.get('jsonCtrl');}
 
   previewComments(){
     this.dialog.open(PreviewCommentsDialog, {
       data: {
-        comments: this.previewCommentList || []
+        comments: this.previewCommentList
       },
       width: '50rem',
     });

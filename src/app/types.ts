@@ -1,3 +1,8 @@
+export enum SocialCommunity {
+    DCARD = 'dcard',
+    PTT = 'ptt',
+}
+
 export enum TableColumnType {
     COMMENT = 'comment',
     LINK = 'link',
@@ -17,6 +22,8 @@ export interface DcardCommentParams extends CommentParams {
 export interface PttCommentParams extends CommentParams {
     author: string,
 }
+
+export type CommentParamsType = DcardCommentParams | PttCommentParams;
 
 export enum DcardRawDataType {
     CONTENT = 'content',

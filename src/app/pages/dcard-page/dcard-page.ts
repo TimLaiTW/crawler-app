@@ -1,7 +1,7 @@
-import { Component, OnInit, SimpleChanges } from '@angular/core';
-import { DcardCommentParams } from '../../types';
+import { Component, OnInit } from '@angular/core';
 import { DcardService } from 'src/app/services/dcard.service';
 import { DcardPageHeader } from '../../static_string';
+import { DcardCommentParams } from 'src/app/types';
 
 @Component({
   selector: 'dcard-page',
@@ -10,16 +10,10 @@ import { DcardPageHeader } from '../../static_string';
 })
 export class DcardPage implements OnInit{
   PageHeader = DcardPageHeader;
-  commentsData:DcardCommentParams[] = [];
-  comments:string[] = [];
-  urls:string[] = [];
-  constructor(private dcardService: DcardService){}
-  
+  commentDataList:DcardCommentParams[] = [];
+  constructor(readonly dcardService: DcardService){}
+
   ngOnInit(): void {
-    this.dcardService.commentDataList.subscribe(dataList => 
-      {
-        this.commentsData = dataList
-      }
-      );
+    this.dcardService.commentDataList.subscribe(dataList => this.commentDataList = dataList);
   }
 }

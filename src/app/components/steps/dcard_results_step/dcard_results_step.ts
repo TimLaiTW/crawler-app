@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { DcardService } from '../../../services/dcard.service';
-import { DcardCommentParams } from 'src/app/types';
+import { SocialCommunity } from 'src/app/types';
 import { DcardPageHeader } from '../../../static_string';
+import { exportToCsv } from '../../../utils';
 
 @Component({
   selector: 'dcard-results-step',
@@ -10,19 +11,18 @@ import { DcardPageHeader } from '../../../static_string';
 })
 export class DcardResultsStep implements OnInit{
   PageHeader = DcardPageHeader;
-  commentDataList: DcardCommentParams[] = [];
+  commentList:string[] = [];
+  linkList:string[] = [];
   constructor(readonly dcardService: DcardService){}
 
-  ngOnInit(){
-		this.dcardService.commentDataList.subscribe(dataList => this.commentDataList = dataList);
-	}
-
-  getComments(): string[] {
-    return this.commentDataList.map(comments => comments.comment);
+  ngOnInit(): void {
+    this.dcardService.commentDataList.subscribe(dataList => {
+      this.commentList = dataList.map(comments => comments.comment)
+      this.linkList = dataList.flatMap(comments => comments.link ?? [])
+    });
   }
-
-  getLinks(): string[] {
-    return this.commentDataList.flatMap(
-      comments => comments.link ?? []);
+  
+  exportToCsv(){
+    exportToCsv(this.commentList, this.linkList, SocialCommunity.DCARD);
   }
 }

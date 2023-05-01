@@ -3,7 +3,7 @@ import { PttPageHeader } from 'src/app/static_string';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { PttService } from 'src/app/services/ptt.service';
 import { urlRegEx } from '../../../utils';
-import { UrlResponse } from 'src/app/types';
+import { TIMEOUT_IN_MILLID } from '../../../constants';
 
 @Component({
   selector: 'ptt-config-step',
@@ -13,11 +13,11 @@ import { UrlResponse } from 'src/app/types';
 export class PttConfigStep {
   PageHeader = PttPageHeader;
   urlFormGroup!: FormGroup;
-  disableButton = true;
+  disableCollectBtn = true;
   // rawData: UrlResponse = {'status':'', 'rawData':''};
   constructor(
     private formBuilder: FormBuilder,
-    private pttService: PttService){
+    readonly pttService: PttService){
       this.urlFormGroup = this.formBuilder.group({
         urlCtrl: ['', [
           Validators.pattern(urlRegEx),
@@ -26,15 +26,20 @@ export class PttConfigStep {
 
       this.urlFormGroup.get('urlCtrl')?.valueChanges.subscribe((value: string) => {
         this.pttService.setUrl(value);
-        this.disableButton = this.urlCtrl?.value == '' || this.urlCtrl?.invalid ? true : false;
+        this.disableCollectBtn = this.urlCtrl?.value == '' || this.urlCtrl?.invalid ? true : false;
       });
     }
 
   get urlCtrl() { return this.urlFormGroup.get('urlCtrl');}
 
-  getRawData(){
-    this.disableButton = true;
-    this.pttService.getRawData().subscribe(data => this.pttService.setRawData(data));
-    setTimeout(() => {}, 5000);
+  collectCommentsData(){
+    this.disableCollectBtn = true;
+    this.pttService.sendRequest().subscribe(data => {
+      this.pttService.setRawData(data);
+      this.pttService.formatRawData();
+    });
+    setTimeout(() => {
+      this.disableCollectBtn = false;
+    }, TIMEOUT_IN_MILLID);
   }
 }

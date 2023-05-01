@@ -1,3 +1,6 @@
+import { DcardService } from "./services/dcard.service";
+import { PttService } from "./services/ptt.service";
+
 export enum SocialCommunity {
     DCARD = 'dcard',
     PTT = 'ptt',
@@ -24,6 +27,8 @@ export interface PttCommentParams extends CommentParams {
 }
 
 export type CommentParamsType = DcardCommentParams | PttCommentParams;
+
+export type ServiceType = DcardService | PttService;
 
 export enum DcardRawDataType {
     CONTENT = 'content',

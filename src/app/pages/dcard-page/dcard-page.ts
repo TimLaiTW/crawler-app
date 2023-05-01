@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DcardService } from 'src/app/services/dcard.service';
 import { DcardPageHeader } from '../../static_string';
 import { DcardCommentParams } from 'src/app/types';
+import { MatStepper } from '@angular/material/stepper';
+import { resetStepper } from 'src/app/utils';
 
 @Component({
   selector: 'dcard-page',
@@ -9,11 +11,16 @@ import { DcardCommentParams } from 'src/app/types';
   styleUrls: ['./dcard-page.scss']
 })
 export class DcardPage implements OnInit{
+  @ViewChild('stepper') stepper!: MatStepper;
   PageHeader = DcardPageHeader;
   commentDataList:DcardCommentParams[] = [];
   constructor(readonly dcardService: DcardService){}
 
   ngOnInit(): void {
     this.dcardService.commentDataList.subscribe(dataList => this.commentDataList = dataList);
+  }
+  
+  done(){
+    resetStepper(this.stepper, this.dcardService);
   }
 }

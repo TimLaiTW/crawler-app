@@ -17,7 +17,7 @@ export class DcardResultsStep implements OnInit{
 
   ngOnInit(): void {
     this.dcardService.commentDataList.subscribe(dataList => {
-      this.commentList = dataList.map(comments => comments.comment)
+      this.commentList = dataList.map(comments => comments.comment).filter(Boolean)
       this.linkList = dataList.flatMap(comments => comments.link ?? [])
     });
   }

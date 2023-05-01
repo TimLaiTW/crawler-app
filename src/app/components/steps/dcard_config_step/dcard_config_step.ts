@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { DcardService } from 'src/app/services/dcard.service';
 import { DcardPageHeader } from '../../../static_string';
 import { numRegEx } from '../../../utils';
+import { TIMEOUT_IN_MILLID } from '../../../constants';
 
 @Component({
   selector: 'dcard-config-step',
@@ -42,6 +43,6 @@ export class DcardConfigStep {
     setTimeout(()=>{
       this.disableCollectBtn = false;
       this.requestTime += 1;
-    },5000);
+    },TIMEOUT_IN_MILLID);
   }
 }

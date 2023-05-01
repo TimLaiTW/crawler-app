@@ -1,12 +1,12 @@
 <div class="stepper">
     <mat-horizontal-stepper linear="true" #stepper>
-        <mat-step>
+        <mat-step [completed]="commentDataList.length > 0">
             <ng-template matStepLabel>{{PageHeader.Config.Title}}</ng-template>
             <ptt-config-step></ptt-config-step>
             <div class="horizontal-gutter-extra-large"></div>
             <div class="horizontal-gutter-extra-large"></div>
             <div class="action-btn-group">
-                <button class="action-btn" mat-raised-button matStepperNext>Next: see results</button>
+                <button class="action-btn" mat-raised-button matStepperNext [disabled]="!commentDataList.length">Next: see results</button>
             </div>
         </mat-step>
         <mat-step>
@@ -15,8 +15,7 @@
             <div class="horizontal-gutter-extra-large"></div>
             <div class="horizontal-gutter-extra-large"></div>
             <div class="action-btn-group">
-                <button class="action-btn" mat-raised-button matStepperPrevious>Back: add more comments</button>
-                <button class="action-btn" mat-raised-button (click)="stepper.reset()">Reset</button>
+                <button class="action-btn" mat-raised-button (click)="done()">Reset</button>
             </div>
         </mat-step>
     </mat-horizontal-stepper>

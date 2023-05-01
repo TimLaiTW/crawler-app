@@ -1,6 +1,7 @@
 import { AbstractControl, ValidationErrors } from '@angular/forms';
-import { DcardRawDataType, TableColumnType, CommentParamsType, SocialCommunity } from './types';
+import { DcardRawDataType, TableColumnType, SocialCommunity, ServiceType } from './types';
 import { saveAs } from 'file-saver';
+import { MatStepper } from '@angular/material/stepper';
 
 export const urlRegEx = "(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?";
 export const numRegEx = "^[0-9]*$";
@@ -71,4 +72,9 @@ export function exportToCsv(commentList: string[], linkList: string[], platform:
 
   const csvContent = data.map(row => row.join('\n')).join('\n');
   exportFile(csvContent, 'text/csv', platform);
+}
+
+export function resetStepper(stepper: MatStepper, service: ServiceType){
+  stepper.reset();
+  service.resetAll();
 }

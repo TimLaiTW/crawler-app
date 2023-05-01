@@ -8,20 +8,4 @@ import {PttService} from './services/ptt.service';
 })
 export class AppComponent {
   title = 'crawlers';
-  pttRawData:any;
-  isPttRawDataButtonDisable = false;
-  constructor(private PttService:PttService){}
-  showPttRawData() {
-    this.PttService.getRawData();
-    this.isPttRawDataButtonDisable = true;
-    setTimeout(() => {
-      this.isPttRawDataButtonDisable = false;
-    }, 5000);
-
-
-    // this.PttService.getRawData()
-    //   .subscribe((data: any) => {
-    //     this.pttRawData = data;
-    //   });
-  }
 }

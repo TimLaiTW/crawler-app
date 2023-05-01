@@ -3,8 +3,9 @@ import { DcardRawDataType, TableColumnType, SocialCommunity, ServiceType } from 
 import { saveAs } from 'file-saver';
 import { MatStepper } from '@angular/material/stepper';
 
-export const urlRegEx = "(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?";
-export const numRegEx = "^[0-9]*$";
+export const urlRegEx: RegExp = /https:\/\/www\.pttweb\.cc\/bbs\/[a-zA-Z]+\/.*/;
+export const imageRegEx: RegExp = /https?:\/\/\S+\.jpe?g|https?:\/\/\S+\.png/g;
+export const numRegEx: RegExp = /^[0-9]*$/;
 
 interface MediaMeta {
   id: string,
@@ -37,8 +38,7 @@ export function jsonValidator(control: AbstractControl): ValidationErrors | null
 };
 
 export function getMsgFromRawData(rawString: string): string {
-  const regex = /https?:\/\/[^\s]+/gi;
-  return rawString.replaceAll(regex, '').replaceAll('\n', ' ').trim();
+  return rawString.replaceAll(imageRegEx, '').replaceAll('\n', ' ').trim();
 }
 
 export function getLinkFromRawData(mediaMeta:MediaMeta[]):string[]{

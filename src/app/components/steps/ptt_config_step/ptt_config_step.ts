@@ -35,7 +35,7 @@ export class PttConfigStep {
   collectCommentsData(){
     this.disableCollectBtn = true;
     this.pttService.sendRequest().subscribe(data => {
-      this.pttService.setRawData(data);
+      this.pttService.setRawData(data.rawData);
       this.pttService.formatRawData();
     });
     setTimeout(() => {

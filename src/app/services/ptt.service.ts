@@ -1,9 +1,10 @@
 import { Injectable, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { PTT_API } from '../constants';
 import { UrlResponse, PttCommentParams } from '../types';
 import { map } from 'rxjs/operators';
+import { getMsgFromRawData, imageRegEx } from '../utils';
 
 @Injectable({
   providedIn: 'root'
@@ -11,20 +12,20 @@ import { map } from 'rxjs/operators';
 export class PttService {
   private commentDataListChange = new BehaviorSubject<PttCommentParams[]>([]);
   private urlChange = new BehaviorSubject<string>('');
-  private rawDataChange = new BehaviorSubject<UrlResponse>({'status': '', 'rawData': ''});
+  private rawDataChange = new BehaviorSubject<string>('');
   commentDataList = this.commentDataListChange.asObservable();
   url = this.urlChange.asObservable();
   rawData = this.rawDataChange.asObservable();
 
   articleAuthor:string = '';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   setUrl(url:string){
     this.urlChange.next(url);
   }
 
-  setRawData(rawData: UrlResponse){
+  setRawData(rawData: string){
     this.rawDataChange.next(rawData);
   }
 
@@ -54,11 +55,9 @@ export class PttService {
   }
 
   formatRawData() {
-    const htmlString = this.rawDataChange.getValue().rawData;
+    const htmlString = this.rawDataChange.getValue();
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlString, "text/html");
-    
-    const imageRegex: RegExp = /https?:\/\/\S+\.jpe?g|https?:\/\/\S+\.png/g;
 
     this.getArticleAuthor(doc);
     const currentDataList:PttCommentParams[] = [];
@@ -75,11 +74,9 @@ export class PttService {
       if (this.isSameAuthor(author, currentDataList)){
         currentDataList[currentDataList.length - 1].comment += textProp.textContent;
       } else {
-        const links = commentText.match(imageRegex)?.map(link => link);
-        commentText = commentText.replaceAll(imageRegex, '');
-
+        const links = commentText.match(imageRegEx)?.map(link => link);
         const commentData:PttCommentParams = {
-          comment: commentText,
+          comment: getMsgFromRawData(commentText),
           link: links || [],
           host:author === this.articleAuthor,
           author: author || '',
@@ -89,13 +86,17 @@ export class PttService {
       }
     }
 
-    this.commentDataListChange.next(currentDataList);
+    this.setCommentDataList(currentDataList);
   }
+
+	setCommentDataList(commentsData: PttCommentParams[]){
+		this.commentDataListChange.next(commentsData);
+	}
 
   resetAll() {
     this.commentDataListChange.next([]);
     this.urlChange.next('');
-    this.rawDataChange.next({'status': '', 'rawData': ''});
+    this.rawDataChange.next('');
     this.articleAuthor = '';    
   }
 }

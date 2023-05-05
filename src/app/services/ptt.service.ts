@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { UrlResponse, PttCommentParams } from '../types';
+import { BehaviorSubject } from 'rxjs';
+import { PttCommentParams } from '../types';
 import { getMsgFromRawData, imageRegEx } from '../utils';
 import { ApiService } from './api.service';
 

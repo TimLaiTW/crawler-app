@@ -13,8 +13,9 @@ import { TIMEOUT_IN_MILLID } from '../../../constants';
 export class PttConfigStep {
   PageHeader = PttPageHeader;
   urlFormGroup!: FormGroup;
+  htmlFormGroup!: FormGroup;
   disableCollectBtn = true;
-  // rawData: UrlResponse = {'status':'', 'rawData':''};
+
   constructor(
     private formBuilder: FormBuilder,
     readonly pttService: PttService){
@@ -25,21 +26,35 @@ export class PttConfigStep {
       });
 
       this.urlFormGroup.get('urlCtrl')?.valueChanges.subscribe((value: string) => {
-        this.pttService.setUrl(value);
         this.disableCollectBtn = this.urlCtrl?.value == '' || this.urlCtrl?.invalid ? true : false;
+      });
+
+      // TODO : Add validator for verifying html elements.
+      this.htmlFormGroup = this.formBuilder.group({
+        htmlCtrl: [''],
+      });
+
+      this.htmlFormGroup.get('htmlCtrl')?.valueChanges.subscribe((value: string) => {
+        this.disableCollectBtn = this.htmlCtrl?.value == '' || this.htmlCtrl?.invalid ? true : false;
       });
     }
 
   get urlCtrl() { return this.urlFormGroup.get('urlCtrl');}
+  get htmlCtrl() { return this.htmlFormGroup.get('htmlCtrl');}
 
   collectCommentsData(){
     this.disableCollectBtn = true;
-    this.pttService.sendRequest().subscribe(data => {
+    this.pttService.sendRequest(this.urlCtrl?.value).subscribe(data => {
       this.pttService.setRawData(data.rawData);
       this.pttService.formatRawData();
     });
     setTimeout(() => {
       this.disableCollectBtn = false;
     }, TIMEOUT_IN_MILLID);
+  }
+
+  collectHTML(){
+    this.pttService.setRawData(this.htmlCtrl?.value);
+    this.pttService.formatRawData();
   }
 }

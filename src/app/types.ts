@@ -50,3 +50,9 @@ export interface UrlResponse {
     status: string, 
     rawData: string
 }
+
+export interface PageOverview {
+    Title: string,
+    Descrip?: string,
+    Hints?: string[]
+}

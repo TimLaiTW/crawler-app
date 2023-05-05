@@ -7,6 +7,6 @@ import { Component, Input } from '@angular/core';
 })
 export class PageHeaderSection {
 @Input() header:string = '';
-@Input() descrp:string = '';
-@Input() hints:string[] = [];
+@Input() descrp?:string = '';
+@Input() hints?:string[] = [];
 }

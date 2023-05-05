@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PttResultsStep } from './ptt_results_step';
+import { ResultsStep } from './results_step';
 
-describe('PttResultsStep', () => {
-  let component: PttResultsStep;
-  let fixture: ComponentFixture<PttResultsStep>;
+describe('ResultsStep', () => {
+  let component: ResultsStep;
+  let fixture: ComponentFixture<ResultsStep>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PttResultsStep ]
+      declarations: [ ResultsStep ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(PttResultsStep);
+    fixture = TestBed.createComponent(ResultsStep);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

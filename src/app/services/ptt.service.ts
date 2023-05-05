@@ -11,27 +11,21 @@ import { getMsgFromRawData, imageRegEx } from '../utils';
 })
 export class PttService {
   private commentDataListChange = new BehaviorSubject<PttCommentParams[]>([]);
-  private urlChange = new BehaviorSubject<string>('');
   private rawDataChange = new BehaviorSubject<string>('');
   commentDataList = this.commentDataListChange.asObservable();
-  url = this.urlChange.asObservable();
   rawData = this.rawDataChange.asObservable();
 
   articleAuthor:string = '';
 
   constructor(private http: HttpClient) {}
 
-  setUrl(url:string){
-    this.urlChange.next(url);
-  }
-
   setRawData(rawData: string){
     this.rawDataChange.next(rawData);
   }
 
-  sendRequest(): Observable<UrlResponse>{
+  sendRequest(url:string): Observable<UrlResponse>{
     const data = {
-      article_url: this.urlChange.value
+      article_url: url
     };
     
     return this.http.post<UrlResponse>(PTT_API, data).pipe(
@@ -95,7 +89,6 @@ export class PttService {
 
   resetAll() {
     this.commentDataListChange.next([]);
-    this.urlChange.next('');
     this.rawDataChange.next('');
     this.articleAuthor = '';    
   }

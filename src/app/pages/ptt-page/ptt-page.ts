@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { PttPageHeader } from '../../static_string';
 import { PttService } from 'src/app/services/ptt.service';
-import { PttCommentParams } from '../../types';
+import { PttCommentParams, SocialCommunity } from '../../types';
 import { MatStepper } from '@angular/material/stepper';
 import { resetStepper } from '../../utils';
 
@@ -14,6 +14,7 @@ export class PttPage {
   @ViewChild('stepper') stepper!: MatStepper;
 
   PageHeader = PttPageHeader;
+  SocialCommunity = SocialCommunity;
   commentDataList:PttCommentParams[] = [];
   constructor(readonly pttService: PttService){}
 

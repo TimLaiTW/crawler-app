@@ -1,10 +1,8 @@
-import { Injectable, Input } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { PTT_API } from '../constants';
 import { UrlResponse, PttCommentParams } from '../types';
-import { map } from 'rxjs/operators';
 import { getMsgFromRawData, imageRegEx } from '../utils';
+import { ApiService } from './api.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,26 +15,10 @@ export class PttService {
 
   articleAuthor:string = '';
 
-  constructor(private http: HttpClient) {}
+  constructor(private apiService: ApiService) {}
 
   setRawData(rawData: string){
     this.rawDataChange.next(rawData);
-  }
-
-  sendRequest(url:string): Observable<UrlResponse>{
-    const data = {
-      article_url: url
-    };
-    
-    return this.http.post<UrlResponse>(PTT_API, data).pipe(
-      map((response: UrlResponse) => {
-        if (response && response.status && response.rawData){
-          return response as UrlResponse;
-        } else {
-          throw new Error('Invalid url response format')
-        }
-      })
-    );
   }
 
   private isSameAuthor(author:string, dataList:PttCommentParams[]):boolean{
@@ -48,7 +30,7 @@ export class PttService {
     this.articleAuthor = doc.querySelector('[itemprop="author"] [itemprop="name"]')?.textContent || '';
   }
 
-  formatRawData() {
+  private formatRawData() {
     const htmlString = this.rawDataChange.getValue();
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlString, "text/html");
@@ -86,6 +68,18 @@ export class PttService {
 	setCommentDataList(commentsData: PttCommentParams[]){
 		this.commentDataListChange.next(commentsData);
 	}
+
+  generateDataViaURL(url: string){
+    this.apiService.sendPttRequest(url).subscribe(data => {
+      this.setRawData(data.rawData);
+      this.formatRawData();
+    });
+  }
+  
+  generateDataViaHTML(html: string){
+    this.setRawData(html);
+    this.formatRawData();
+  }
 
   resetAll() {
     this.commentDataListChange.next([]);

@@ -44,17 +44,13 @@ export class PttConfigStep {
 
   collectCommentsData(){
     this.disableCollectBtn = true;
-    this.pttService.sendRequest(this.urlCtrl?.value).subscribe(data => {
-      this.pttService.setRawData(data.rawData);
-      this.pttService.formatRawData();
-    });
+    this.pttService.generateDataViaURL(this.urlCtrl?.value);
     setTimeout(() => {
       this.disableCollectBtn = false;
     }, TIMEOUT_IN_MILLID);
   }
 
   collectHTML(){
-    this.pttService.setRawData(this.htmlCtrl?.value);
-    this.pttService.formatRawData();
+    this.pttService.generateDataViaHTML(this.htmlCtrl?.value);
   }
 }

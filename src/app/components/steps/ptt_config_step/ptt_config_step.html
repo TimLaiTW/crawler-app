@@ -3,23 +3,22 @@
         [header]="PageHeader.Config.Title"
         [descrp]="PageHeader.Config.Descrip"
         [hints]="PageHeader.Config.Hints"></page-header-section>
-    <form [formGroup]="urlFormGroup">
+    <form [formGroup]="pttDataFormGroup">
         <mat-form-field class="article-url-form" appearance="outline">
             <mat-label>Ptt URL</mat-label>
             <input matInput formControlName="urlCtrl" placeholder="Please enter article URL">
-            <button *ngIf="urlCtrl?.value != ''" matSuffix mat-icon-button aria-label="Clear" (click)="urlCtrl?.setValue('')">
+            <button *ngIf="urlCtrl?.value != ''" matSuffix mat-icon-button aria-label="Clear" (click)="urlCtrl.setValue('')">
                 <mat-icon>close</mat-icon>
             </button>
             <mat-error class="err-msg" *ngIf="urlCtrl && urlCtrl.errors?.['pattern']">
                 Wrong URL format.
             </mat-error>
         </mat-form-field>
-    </form>
-    <form [formGroup]="htmlFormGroup">
+        <div class="horizontal-gutter-medium-small"></div>
         <mat-form-field class="article-url-form" appearance="outline">
             <mat-label>Ptt HTML</mat-label>
-            <input matInput formControlName="htmlCtrl" placeholder="Please enter article HTML">
-            <button *ngIf="htmlCtrl?.value != ''" matSuffix mat-icon-button aria-label="Clear" (click)="htmlCtrl?.setValue('')">
+            <textarea matInput formControlName="htmlCtrl" cols="10" rows="10" placeholder="Please enter article HTML"></textarea>
+            <button *ngIf="htmlCtrl?.value != ''" matSuffix mat-icon-button aria-label="Clear" (click)="htmlCtrl.setValue('')">
                 <mat-icon>close</mat-icon>
             </button>
             <mat-error class="err-msg" *ngIf="htmlCtrl && htmlCtrl.errors?.['pattern']">
@@ -27,7 +26,6 @@
             </mat-error>
         </mat-form-field>
     </form>
-    <button (click)="collectHTML()">html collect</button>
     <div class="horizontal-gutter-medium-small"></div>
     <button mat-raised-button color="primary" class="cmt-data-btn" (click)="collectCommentsData()" [disabled]="disableCollectBtn">Collect Comments Data</button>
 </div>

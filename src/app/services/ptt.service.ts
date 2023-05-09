@@ -9,6 +9,7 @@ import { ApiService } from './api.service';
 })
 export class PttService {
   private commentDataListChange = new BehaviorSubject<PttCommentParams[]>([]);
+  private readonly articleURLChange = new BehaviorSubject<string>('');
   private rawDataChange = new BehaviorSubject<string>('');
   commentDataList = this.commentDataListChange.asObservable();
   rawData = this.rawDataChange.asObservable();
@@ -16,6 +17,10 @@ export class PttService {
   articleAuthor:string = '';
 
   constructor(private apiService: ApiService) {}
+
+	setMetaData(articleURL: string){
+    this.articleURLChange.next(articleURL);
+	}
 
   setRawData(rawData: string){
     this.rawDataChange.next(rawData);
@@ -81,8 +86,18 @@ export class PttService {
     this.formatRawData();
   }
 
+
+  arePropsEmpty(){
+    return (
+      !this.commentDataListChange.value.length && 
+      !this.articleURLChange.getValue() && 
+      !this.rawDataChange.getValue()
+    );
+  }
+
   resetAll() {
     this.commentDataListChange.next([]);
+    this.articleURLChange.next('');
     this.rawDataChange.next('');
     this.articleAuthor = '';    
   }

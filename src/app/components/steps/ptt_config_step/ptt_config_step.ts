@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PttPageHeader } from 'src/app/static_string';
-import { FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { PttService } from 'src/app/services/ptt.service';
-import { urlRegEx } from '../../../utils';
+import { pttUrlRegEx } from '../../../utils';
 import { TIMEOUT_IN_MILLID } from '../../../constants';
 
 @Component({
@@ -10,47 +10,44 @@ import { TIMEOUT_IN_MILLID } from '../../../constants';
   templateUrl: './ptt_config_step.html',
   styleUrls: ['./ptt_config_step.scss']
 })
-export class PttConfigStep {
+export class PttConfigStep implements OnInit{
   PageHeader = PttPageHeader;
   urlFormGroup!: FormGroup;
   htmlFormGroup!: FormGroup;
+  pttDataFormGroup!: FormGroup;
   disableCollectBtn = true;
+
+  urlCtrl = new FormControl('', [Validators.pattern(pttUrlRegEx)]);
+  htmlCtrl = new FormControl('', []);
 
   constructor(
     private formBuilder: FormBuilder,
-    readonly pttService: PttService){
-      this.urlFormGroup = this.formBuilder.group({
-        urlCtrl: ['', [
-          Validators.pattern(urlRegEx),
-        ]],
+    readonly pttService: PttService){}
+
+    ngOnInit(): void {
+      this.pttDataFormGroup = this.formBuilder.group({
+        urlCtrl: this.urlCtrl,
+        htmlCtrl: this.htmlCtrl
       });
 
-      this.urlFormGroup.get('urlCtrl')?.valueChanges.subscribe((value: string) => {
-        this.disableCollectBtn = this.urlCtrl?.value == '' || this.urlCtrl?.invalid ? true : false;
+      this.urlCtrl.valueChanges.subscribe((value: string | null) => {
+        this.disableCollectBtn = value == null || value == '' || this.urlCtrl?.invalid ? true : false;
       });
 
-      // TODO : Add validator for verifying html elements.
-      this.htmlFormGroup = this.formBuilder.group({
-        htmlCtrl: [''],
-      });
-
-      this.htmlFormGroup.get('htmlCtrl')?.valueChanges.subscribe((value: string) => {
-        this.disableCollectBtn = this.htmlCtrl?.value == '' || this.htmlCtrl?.invalid ? true : false;
+      this.htmlCtrl.valueChanges.subscribe((value: string | null) => {
+        this.disableCollectBtn = value == null || value == '' || this.urlCtrl?.invalid ? true : false;
       });
     }
 
-  get urlCtrl() { return this.urlFormGroup.get('urlCtrl');}
-  get htmlCtrl() { return this.htmlFormGroup.get('htmlCtrl');}
-
   collectCommentsData(){
     this.disableCollectBtn = true;
-    this.pttService.generateDataViaURL(this.urlCtrl?.value);
+    if (this.htmlCtrl.value){
+      this.pttService.generateDataViaHTML(this.htmlCtrl?.value);
+    } else if (this.urlCtrl.value){
+      this.pttService.generateDataViaURL(this.urlCtrl.value);
+    }
     setTimeout(() => {
       this.disableCollectBtn = false;
     }, TIMEOUT_IN_MILLID);
-  }
-
-  collectHTML(){
-    this.pttService.generateDataViaHTML(this.htmlCtrl?.value);
   }
 }

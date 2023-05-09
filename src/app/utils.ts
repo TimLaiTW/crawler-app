@@ -3,7 +3,7 @@ import { DcardRawDataType, TableColumnType, SocialCommunity, ServiceType } from 
 import { saveAs } from 'file-saver';
 import { MatStepper } from '@angular/material/stepper';
 
-export const urlRegEx: RegExp = /https:\/\/www\.pttweb\.cc\/bbs\/[a-zA-Z]+\/.*/;
+export const pttUrlRegEx: RegExp = /https:\/\/www\.pttweb\.cc\/bbs\/[a-zA-Z]+\/.*/;
 export const imageRegEx: RegExp = /https?:\/\/\S+\.jpe?g|https?:\/\/\S+\.png/g;
 export const numRegEx: RegExp = /^[0-9]*$/;
 

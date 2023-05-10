@@ -32,6 +32,11 @@ export class PttConfigStep implements OnInit{
 
       this.urlCtrl.valueChanges.subscribe((value: string | null) => {
         this.disableCollectBtn = value == null || value == '' || this.urlCtrl?.invalid ? true : false;
+        if (value) {
+          this.htmlCtrl.disable();
+        } else {
+          this.htmlCtrl.enable();
+        }
       });
 
       this.htmlCtrl.valueChanges.subscribe((value: string | null) => {

@@ -7,7 +7,7 @@
         <mat-form-field class="article-form" appearance="outline">
             <mat-label>Ptt URL</mat-label>
             <input matInput formControlName="urlCtrl" placeholder="Please enter article URL">
-            <button *ngIf="urlCtrl?.value != ''" matSuffix mat-icon-button aria-label="Clear" (click)="urlCtrl.setValue('')">
+            <button *ngIf="urlCtrl.value != ''" matSuffix mat-icon-button aria-label="Clear" (click)="urlCtrl.setValue('')">
                 <mat-icon>close</mat-icon>
             </button>
             <mat-error class="err-msg" *ngIf="urlCtrl && urlCtrl.errors?.['pattern']">
@@ -18,7 +18,7 @@
         <mat-form-field class="article-form" appearance="outline">
             <mat-label>Ptt HTML</mat-label>
             <textarea matInput formControlName="htmlCtrl" cols="10" rows="10" placeholder="Please enter article HTML"></textarea>
-            <button *ngIf="htmlCtrl?.value != ''" matSuffix mat-icon-button aria-label="Clear" (click)="htmlCtrl.setValue('')">
+            <button *ngIf="htmlCtrl.value != ''" matSuffix mat-icon-button aria-label="Clear" (click)="htmlCtrl.setValue('')">
                 <mat-icon>close</mat-icon>
             </button>
             <mat-error class="err-msg" *ngIf="htmlCtrl && htmlCtrl.errors?.['pattern']">

@@ -6,8 +6,8 @@ export interface DialogData {
 }
 @Component({
   selector: 'preview-comments-dialog',
-  templateUrl: './preview-comments-dialog.html',
-  styleUrls: ['./preview-comments-dialog.scss']
+  templateUrl: './preview_comments_dialog.html',
+  styleUrls: ['./preview_comments_dialog.scss']
 })
 export class PreviewCommentsDialog {
   constructor(public dialogRef: MatDialogRef<PreviewCommentsDialog>, @Inject(MAT_DIALOG_DATA) public data: DialogData){}

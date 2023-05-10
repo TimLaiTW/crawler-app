@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { DcardService } from 'src/app/services/dcard.service';
 import { DcardPageHeader } from '../../../static_string';
-import { numRegEx, jsonValidator, getMsgFromRawData, getLinkFromRawData, dcardUrlRegEx } from '../../../utils';
+import { jsonValidator, getMsgFromRawData, getLinkFromRawData, dcardUrlRegEx } from '../../../utils';
 import { TIMEOUT_IN_MILLID } from '../../../constants';
 import { MatDialog } from '@angular/material/dialog';
 import { DcardCommentParams, DcardRawDataType } from '../../../types';
 import { commentDataTemplate } from '../../../templates';
-import { PreviewCommentsDialog } from '../../dialogs/preview-comments-dialog/preview-comments-dialog';
-
+import { PreviewCommentsDialog } from '../../dialogs/preview_comments_dialog/preview_comments_dialog';
+import { DuplicateCommentsDialog } from '../../dialogs/duplicate_comments_dialog/duplicate_comments_dialog';
 @Component({
   selector: 'dcard-config-step',
   templateUrl: './dcard_config_step.html',
@@ -60,42 +60,43 @@ export class DcardConfigStep implements OnInit{
   }
 
   collectRawData() {
-    if (!this.jsonCtrl || !this.jsonCtrl?.value){
+    if (!this.jsonCtrl || !this.jsonCtrl.value){
       return;
     }
     
-    this.disableOpenPageBtn = false;
-    let continueUnmarshal: boolean = false;
-    if (!this.dcardService.isSameRawData(this.jsonCtrl.value)){
-      continueUnmarshal = true;
-      this.dcardService.setRawData(this.jsonCtrl.value);
-    }
-    else {
-      // TODO: pop up dialog for confirmming if same data is intended.
-      // If dialog return yes!
-      // continueUnmarshal = true;
+    if (this.urlCtrl.value){
+      this.disableOpenPageBtn = false;
     }
 
-    if (continueUnmarshal){
-      const jsonParse = JSON.parse(this.jsonCtrl.value)
-      const rawDataArray = Object.keys(jsonParse).map(key => jsonParse[key]);
-      const commentRaws : DcardCommentParams[] = rawDataArray.flatMap(rawData => {
-        if (rawData[DcardRawDataType.CONTENT]){
-          const commentData:DcardCommentParams = {
-            comment: getMsgFromRawData(rawData[DcardRawDataType.CONTENT]),
-            link: getLinkFromRawData(rawData[DcardRawDataType.MEDIAMETA]),
-            host: rawData[DcardRawDataType.HOST],
-            subCommentCount: rawData[DcardRawDataType.SUBCOMMENTCOUNT]
-          }
-          const emptyCommentRaws:DcardCommentParams[] = Array(commentData.subCommentCount).fill(commentDataTemplate);
-          return [commentData, ...emptyCommentRaws];
-        }
-        return [];
-      });
-      
-      this.dcardService.setCommentDataList(commentRaws);
-      this.jsonCtrl.setValue('');
+    const json = this.jsonCtrl.value;
+    if (!this.dcardService.isSameRawData(json)){
+      this.unmarshal(json);
     }
+    else {
+      this.dialog.open(DuplicateCommentsDialog);
+    }
+  }
+
+  unmarshal(json: string){
+    this.dcardService.setRawData(json);
+    const jsonParse = JSON.parse(json)
+    const rawDataArray = Object.keys(jsonParse).map(key => jsonParse[key]);
+    const commentRaws : DcardCommentParams[] = rawDataArray.flatMap(rawData => {
+      if (rawData[DcardRawDataType.CONTENT]){
+        const commentData:DcardCommentParams = {
+          comment: getMsgFromRawData(rawData[DcardRawDataType.CONTENT]),
+          link: getLinkFromRawData(rawData[DcardRawDataType.MEDIAMETA]),
+          host: rawData[DcardRawDataType.HOST],
+          subCommentCount: rawData[DcardRawDataType.SUBCOMMENTCOUNT]
+        }
+        const emptyCommentRaws:DcardCommentParams[] = Array(commentData.subCommentCount).fill(commentDataTemplate);
+        return [commentData, ...emptyCommentRaws];
+      }
+      return [];
+    });
+    
+    this.dcardService.setCommentDataList(commentRaws);
+    this.jsonCtrl.setValue('');
   }
 
   previewComments(){

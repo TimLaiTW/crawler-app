@@ -9,19 +9,25 @@ import { articleMetaTemplate } from '../templates';
 })
 export class DcardService {
   private readonly commentDataListChange = new BehaviorSubject<DcardCommentParams[]>([]);
-  private readonly articleIDChange = new BehaviorSubject<string>('');
+  private readonly articleURLChange = new BehaviorSubject<string>('');
   private readonly rawDataChange = new BehaviorSubject<string>('');
   private readonly requestTimesChange = new BehaviorSubject<number>(0);
   private articleMetaChange = new BehaviorSubject<ArticleMeta>(articleMetaTemplate);
   commentDataList = this.commentDataListChange.asObservable();
   articleMeta = this.articleMetaChange.asObservable();
+
 	setCommentDataList(commentsData: DcardCommentParams[]){
 		this.commentDataListChange.next(commentsData);
 	}
 
-	setMetaData(articleID: string){
-    console.log('callign dcard set metadata');
-    this.articleIDChange.next(articleID);
+	setMetaData(articleURL: string){
+    this.articleURLChange.next(articleURL);
+    const article = articleURL.split('/');
+    console.log(article);
+    const metalines: ArticleMeta = articleMetaTemplate;
+    metalines.board = article[4];
+    metalines.title = article[6];
+    this.articleMetaChange.next(metalines);
 	}
 
   setRawData(rawData: string){
@@ -34,21 +40,21 @@ export class DcardService {
   }
   
   getUrl(){
-    const baseUrl = `${DCARD_URL}${this.articleIDChange.getValue()}/comments`;
+    const baseUrl = `${DCARD_URL}${this.articleMetaChange.getValue().title}/comments`;
     const requestTimes = this.requestTimesChange.getValue();
     return requestTimes ? `${baseUrl}?after=${requestTimes * 30}` : baseUrl;
   }
 
   resetAll(){
     this.commentDataListChange.next([]);
-    this.articleIDChange.next('');
+    this.articleURLChange.next('');
     this.rawDataChange.next('');
   }
 
   arePropsEmpty(){
     return (
       !this.commentDataListChange.value.length && 
-      !this.articleIDChange.getValue() && 
+      !this.articleURLChange.getValue() && 
       !this.rawDataChange.getValue()
     );
   }

@@ -6,16 +6,13 @@
     </page-header-section>
     <form [formGroup]="dcardDataFormGroup">
         <mat-form-field class="article-form" appearance="outline">
-            <mat-label>Article ID</mat-label>
-            <input matInput formControlName="idCtrl" placeholder="Please enter article ID">
-            <button *ngIf="idCtrl?.value != ''" matSuffix mat-icon-button aria-label="Clear" (click)="idCtrl.setValue('')">
+            <mat-label>Dcard URL</mat-label>
+            <input matInput formControlName="urlCtrl" placeholder="Please enter article URL">
+            <button *ngIf="urlCtrl?.value != ''" matSuffix mat-icon-button aria-label="Clear" (click)="urlCtrl.setValue('')">
                 <mat-icon>close</mat-icon>
             </button>
-            <mat-error class="err-msg" *ngIf="idCtrl && (idCtrl.errors?.['minlength'] || idCtrl.errors?.['maxlength'])">
-                ID should be 9 digits.
-            </mat-error>
-            <mat-error class="err-msg" *ngIf="idCtrl && idCtrl.errors?.['pattern']">
-                ID should be numbers only.
+            <mat-error class="err-msg" *ngIf="urlCtrl && urlCtrl.errors?.['pattern']">
+                 Wrong url format.
             </mat-error>
         </mat-form-field>
         <ng-container *ngIf="url">

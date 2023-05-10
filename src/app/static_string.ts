@@ -1,9 +1,9 @@
 export const DcardPageHeader = {
     Config: {
-        Title: "Enter article ID",
-        Descrip: "You could enter the article ID to get the comments raw data.",
+        Title: "Enter Dcard URL",
+        Descrip: "You must enter the article url to get the comments raw data.",
         Hints: [
-            "1. The article ID could be found in the URL : https://www.dcard.tw/f/\<category>/p/\<article ID>.",
+            "1. The article url format should be : https://www.dcard.tw/f/\<category>/p/\<article ID>.",
             "2. Clicking the 'Open Comments Data' to open the webpage containing the comments raw data.",
             "3. By clicking the button again to show the next 30 comments data.",
             "4. You'll have to wait for 5 seconds to click the button again which preventing you from being blacklisted."
@@ -33,8 +33,9 @@ export const PttPageHeader = {
         Title: "Enter Ptt URL",
         Descrip: "You must enter the url to get the comments list.",
         Hints: [
-            "1. Please find the article in https://www.pttweb.cc.",
-            "2. Paste the url of the article to the below input field."
+            "1. Please find the article in https://www.ptt.cc/bbs/<article board>/<article ID>.html.",
+            "2. Paste the url of the article to the below input field.",
+            "3. Or copy the html from the url to the textarea below."
         ]
     },
     Results: {

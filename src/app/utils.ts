@@ -4,6 +4,7 @@ import { saveAs } from 'file-saver';
 import { MatStepper } from '@angular/material/stepper';
 
 export const pttUrlRegEx: RegExp = /https?:\/\/www\.ptt\.cc\/bbs\/[a-zA-Z]+\/.*/;
+export const dcardUrlRegEx: RegExp = /https?:\/\/www\.dcard\.tw\/f\/[a-zA-Z]+\/.*/;
 export const imageRegEx: RegExp = /https?:\/\/\S+\.jpe?g|https?:\/\/\S+\.png/g;
 export const numRegEx: RegExp = /^[0-9]*$/;
 
@@ -57,9 +58,15 @@ export function getLinkFromRawData(mediaMeta:MediaMeta[]):string[]{
   return mediaData.map(media => media['url']);
 }
 
-function exportFile(data:any, fileType:string, platform: SocialCommunity, author: string, board: string){
+function exportFile(data:any, fileType:string, platform: SocialCommunity, metalines: ArticleMeta){
   const blob = new Blob([data], {type: fileType});
-  const fileName = platform + '_' + author + '_' + board + '_comments.csv';
+  let fileName = platform.toString();
+  if (platform === SocialCommunity.DCARD){
+    const title =  metalines.title ? '_' + metalines.title : '';
+    fileName += title + '_comments.csv';
+  }else if (platform === SocialCommunity.PTT){
+    fileName += '_' + metalines.author + '_' + metalines.board + '_comments.csv';
+  }
   saveAs(blob, fileName);
 }
 
@@ -76,7 +83,7 @@ export function exportToCsv(metalines: ArticleMeta, commentList: string[], linkL
   ];
 
   const csvContent = data.map(row => row.join('\n')).join('\n');
-  exportFile(csvContent, 'text/csv', platform, metalines.author, metalines.board);
+  exportFile(csvContent, 'text/csv', platform, metalines);
 }
 
 export function resetStepper(stepper: MatStepper, service: ServiceType){

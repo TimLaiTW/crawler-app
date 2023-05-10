@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { DcardService } from 'src/app/services/dcard.service';
 import { DcardPageHeader } from '../../../static_string';
-import { numRegEx, jsonValidator, getMsgFromRawData, getLinkFromRawData } from '../../../utils';
+import { numRegEx, jsonValidator, getMsgFromRawData, getLinkFromRawData, dcardUrlRegEx } from '../../../utils';
 import { TIMEOUT_IN_MILLID } from '../../../constants';
 import { MatDialog } from '@angular/material/dialog';
 import { DcardCommentParams, DcardRawDataType } from '../../../types';
@@ -23,11 +23,7 @@ export class DcardConfigStep implements OnInit{
   url = '';
 
 
-  idCtrl = new FormControl('',[
-    Validators.pattern(numRegEx),
-    Validators.minLength(9),
-    Validators.maxLength(9)
-  ]);
+  urlCtrl = new FormControl('',[Validators.pattern(dcardUrlRegEx)]);
   jsonCtrl = new FormControl('',[jsonValidator]);
 
   constructor(
@@ -42,15 +38,15 @@ export class DcardConfigStep implements OnInit{
     });
 
     this.dcardDataFormGroup = this.formBuilder.group({
-      idCtrl: this.idCtrl,
+      urlCtrl: this.urlCtrl,
       jsonCtrl: this.jsonCtrl
     })
 
-    this.idCtrl.valueChanges.subscribe((value: string | null) => {
+    this.urlCtrl.valueChanges.subscribe((value: string | null) => {
       if (value !== null && value !== ''){
         this.dcardService.setMetaData(value);
       }
-      this.disableOpenPageBtn = this.idCtrl?.value == '' || this.idCtrl?.invalid ? true : false;
+      this.disableOpenPageBtn = this.urlCtrl?.value == '' || this.urlCtrl?.invalid ? true : false;
     });
   }
 

@@ -4,11 +4,11 @@
         [descrp]="PageHeader.Config.Descrip"
         [hints]="PageHeader.Config.Hints">
     </page-header-section>
-    <form [formGroup]="articleIDFormGroup">
-        <mat-form-field class="article-id-form" appearance="outline">
+    <form [formGroup]="dcardDataFormGroup">
+        <mat-form-field class="article-form" appearance="outline">
             <mat-label>Article ID</mat-label>
             <input matInput formControlName="idCtrl" placeholder="Please enter article ID">
-            <button *ngIf="idCtrl?.value != ''" matSuffix mat-icon-button aria-label="Clear" (click)="idCtrl?.setValue('')">
+            <button *ngIf="idCtrl?.value != ''" matSuffix mat-icon-button aria-label="Clear" (click)="idCtrl.setValue('')">
                 <mat-icon>close</mat-icon>
             </button>
             <mat-error class="err-msg" *ngIf="idCtrl && (idCtrl.errors?.['minlength'] || idCtrl.errors?.['maxlength'])">
@@ -18,32 +18,29 @@
                 ID should be numbers only.
             </mat-error>
         </mat-form-field>
+        <ng-container *ngIf="url">
+            <div class="hint-msg">
+                {{url}} has been opened.
+            </div>
+        </ng-container>
+        <div class="horizontal-gutter-extra-extra-small"></div>
+        <button mat-raised-button color="primary" class="cmt-data-btn" (click)="openDcardRawData()" [disabled]="disableOpenPageBtn">Open raw data page</button>
+        <div class="horizontal-gutter-medium"></div>
+        <mat-form-field class="article-form" appearance="outline">
+            <textarea matInput formControlName="jsonCtrl" cols="10" rows="10" required placeholder="Paste the content here."></textarea>
+            <mat-error *ngIf="jsonCtrl && (jsonCtrl.errors?.['required'])">
+                Content is required.
+            </mat-error>
+            <mat-error *ngIf="jsonCtrl && jsonCtrl.value != '' && jsonCtrl.errors?.['jsonInvalid']">
+                Content format is incorrect.
+            </mat-error>
+        </mat-form-field>
     </form>
-    <div class="horizontal-gutter-medium-small"></div>
-    <button mat-raised-button color="primary" class="cmt-data-btn" (click)="openDcardRawData()" [disabled]="disableCollectBtn">Open comments data</button>
-    <div class="vertical-gutter-extra-small"></div>
-    <button mat-raised-button color="primary" class="cmt-data-btn" (click)="dcardService.resetAll()" [disabled]="dcardService.arePropsEmpty()">Reset comments data</button>
-    <ng-container *ngIf="url">
-        <div class="horizontal-gutter-extra-small"></div>
-        <div class="hint-msg">
-            {{url}} has been opened.
-        </div>
-    </ng-container>
-
-    <div class="form-wrapper">
-        <form [formGroup]="articleJSONFormGroup">
-            <mat-form-field appearance="outline">
-                <textarea matInput formControlName="jsonCtrl" cols="10" rows="10" required placeholder="Paste the content here."></textarea>
-                <mat-error *ngIf="jsonCtrl && (jsonCtrl.errors?.['required'])">
-                    Content is required.
-                </mat-error>
-                <mat-error *ngIf="jsonCtrl && jsonCtrl.value != '' && jsonCtrl.errors?.['jsonInvalid']">
-                    Content format is incorrect.
-                </mat-error>
-            </mat-form-field>
-        </form>
+    <div class="horizontal-gutter-extra-extra-small"></div>
+    <button mat-raised-button color="primary" class="cmt-data-btn" (click)="collectRawData()" [disabled]="jsonCtrl.value == '' || jsonCtrl.invalid">Collect data</button>
+    <div class="horizontal-gutter-extra-small"></div>
+    <div class="action-btn-group">
+        <button mat-raised-button class="action-btn" color="primary" (click)="dcardService.resetAll()" [disabled]="dcardService.arePropsEmpty()">Reset comments data</button>
+        <button mat-raised-button class="action-btn" color="primary" (click)="previewComments()" [disabled]="!previewCommentList.length">Preview comments</button>
     </div>
-    <button mat-raised-button color="primary" (click)="collectRawData()" [disabled]="jsonCtrl?.value == '' || jsonCtrl?.invalid">Collect data</button>
-    <div class="vertical-gutter-extra-small"></div>
-    <button mat-raised-button color="primary" (click)="previewComments()" [disabled]="!previewCommentList.length">Preview comments</button>
 </div>

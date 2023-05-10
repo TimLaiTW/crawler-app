@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { DcardService } from 'src/app/services/dcard.service';
 import { DcardPageHeader } from '../../../static_string';
 import { numRegEx, jsonValidator, getMsgFromRawData, getLinkFromRawData } from '../../../utils';
 import { TIMEOUT_IN_MILLID } from '../../../constants';
 import { MatDialog } from '@angular/material/dialog';
 import { DcardCommentParams, DcardRawDataType } from '../../../types';
-import { emptyCommentData } from '../../../templates';
+import { commentDataTemplate } from '../../../templates';
 import { PreviewCommentsDialog } from '../../dialogs/preview-comments-dialog/preview-comments-dialog';
 
 @Component({
@@ -16,52 +16,50 @@ import { PreviewCommentsDialog } from '../../dialogs/preview-comments-dialog/pre
 })
 export class DcardConfigStep implements OnInit{
   PageHeader = DcardPageHeader;
-  articleIDFormGroup!: FormGroup;
-  articleJSONFormGroup!: FormGroup;
+  dcardDataFormGroup!: FormGroup;
   requestTime = 0;
-  disableCollectBtn = true;
+  disableOpenPageBtn = true;
   previewCommentList:string[] = [];
   url = '';
+
+
+  idCtrl = new FormControl('',[
+    Validators.pattern(numRegEx),
+    Validators.minLength(9),
+    Validators.maxLength(9)
+  ]);
+  jsonCtrl = new FormControl('',[jsonValidator]);
 
   constructor(
     readonly formBuilder: FormBuilder,
     readonly dcardService: DcardService,
-    public dialog: MatDialog,){
-      this.articleIDFormGroup = this.formBuilder.group({
-        idCtrl: ['', [
-          Validators.pattern(numRegEx),
-          Validators.minLength(9),
-          Validators.maxLength(9)
-        ]],
-      });
-
-      this.articleJSONFormGroup = this.formBuilder.group({
-        jsonCtrl: ['', [jsonValidator]],
-      });
-
-      this.articleIDFormGroup.get('idCtrl')?.valueChanges.subscribe((value: string) => {
-        this.dcardService.setArticleId(value);
-        this.disableCollectBtn = this.idCtrl?.value == '' || this.idCtrl?.invalid ? true : false;
-      });
-    }
-
-  get idCtrl() { return this.articleIDFormGroup.get('idCtrl');}
-  get jsonCtrl() { return this.articleJSONFormGroup.get('jsonCtrl');}
+    public dialog: MatDialog){}
 
   ngOnInit(): void {
     this.dcardService.commentDataList.subscribe(dataList => {
       this.previewCommentList = dataList.map(
         comments => comments.comment).filter(comment => comment.length);
-    });  
+    });
+
+    this.dcardDataFormGroup = this.formBuilder.group({
+      idCtrl: this.idCtrl,
+      jsonCtrl: this.jsonCtrl
+    })
+
+    this.idCtrl.valueChanges.subscribe((value: string | null) => {
+      if (value !== null && value !== ''){
+        this.dcardService.setMetaData(value);
+      }
+      this.disableOpenPageBtn = this.idCtrl?.value == '' || this.idCtrl?.invalid ? true : false;
+    });
   }
 
   openDcardRawData() {
-    this.disableCollectBtn = true;
-    this.url = this.dcardService.getUrl(this.requestTime)
+    this.disableOpenPageBtn = true;
+    this.url = this.dcardService.getUrl()
     window.open(this.url, "_blank");
     setTimeout(()=>{
-      this.disableCollectBtn = false;
-      this.requestTime += 1;
+      this.dcardService.increaseRequestTimes()
     },TIMEOUT_IN_MILLID);
   }
 
@@ -70,6 +68,7 @@ export class DcardConfigStep implements OnInit{
       return;
     }
     
+    this.disableOpenPageBtn = false;
     let continueUnmarshal: boolean = false;
     if (!this.dcardService.isSameRawData(this.jsonCtrl.value)){
       continueUnmarshal = true;
@@ -92,7 +91,7 @@ export class DcardConfigStep implements OnInit{
             host: rawData[DcardRawDataType.HOST],
             subCommentCount: rawData[DcardRawDataType.SUBCOMMENTCOUNT]
           }
-          const emptyCommentRaws:DcardCommentParams[] = Array(commentData.subCommentCount).fill(emptyCommentData);
+          const emptyCommentRaws:DcardCommentParams[] = Array(commentData.subCommentCount).fill(commentDataTemplate);
           return [commentData, ...emptyCommentRaws];
         }
         return [];

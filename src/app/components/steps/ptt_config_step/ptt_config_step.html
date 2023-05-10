@@ -4,7 +4,7 @@
         [descrp]="PageHeader.Config.Descrip"
         [hints]="PageHeader.Config.Hints"></page-header-section>
     <form [formGroup]="pttDataFormGroup">
-        <mat-form-field class="article-url-form" appearance="outline">
+        <mat-form-field class="article-form" appearance="outline">
             <mat-label>Ptt URL</mat-label>
             <input matInput formControlName="urlCtrl" placeholder="Please enter article URL">
             <button *ngIf="urlCtrl?.value != ''" matSuffix mat-icon-button aria-label="Clear" (click)="urlCtrl.setValue('')">
@@ -15,7 +15,7 @@
             </mat-error>
         </mat-form-field>
         <div class="horizontal-gutter-medium-small"></div>
-        <mat-form-field class="article-url-form" appearance="outline">
+        <mat-form-field class="article-form" appearance="outline">
             <mat-label>Ptt HTML</mat-label>
             <textarea matInput formControlName="htmlCtrl" cols="10" rows="10" placeholder="Please enter article HTML"></textarea>
             <button *ngIf="htmlCtrl?.value != ''" matSuffix mat-icon-button aria-label="Clear" (click)="htmlCtrl.setValue('')">

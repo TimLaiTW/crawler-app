@@ -1,8 +1,15 @@
-import {DcardCommentParams} from './types';
+import {DcardCommentParams, ArticleMeta} from './types';
 
-export const emptyCommentData:DcardCommentParams = {
+export const commentDataTemplate:DcardCommentParams = {
     comment:'',
     link: [],
     host: false,
     subCommentCount: 0
   }
+
+export const articleMetaTemplate: ArticleMeta = {
+  author: '',
+  board: '',
+  title: '',
+  timeStamp: ''
+}

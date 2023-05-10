@@ -12,6 +12,13 @@ export enum TableColumnType {
     HOST = 'host',
 }
 
+export interface ArticleMeta {
+    author: string,
+    board: string,
+    title: string,
+    timeStamp: string
+}
+
 export interface CommentParams {
     comment: string,
     link:string[],

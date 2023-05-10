@@ -1,9 +1,9 @@
 import { AbstractControl, ValidationErrors } from '@angular/forms';
-import { DcardRawDataType, TableColumnType, SocialCommunity, ServiceType } from './types';
+import { DcardRawDataType, TableColumnType, SocialCommunity, ServiceType, ArticleMeta } from './types';
 import { saveAs } from 'file-saver';
 import { MatStepper } from '@angular/material/stepper';
 
-export const pttUrlRegEx: RegExp = /https:\/\/www\.pttweb\.cc\/bbs\/[a-zA-Z]+\/.*/;
+export const pttUrlRegEx: RegExp = /https?:\/\/www\.ptt\.cc\/bbs\/[a-zA-Z]+\/.*/;
 export const imageRegEx: RegExp = /https?:\/\/\S+\.jpe?g|https?:\/\/\S+\.png/g;
 export const numRegEx: RegExp = /^[0-9]*$/;
 
@@ -38,6 +38,9 @@ export function jsonValidator(control: AbstractControl): ValidationErrors | null
 };
 
 export function getMsgFromRawData(rawString: string): string {
+  if (rawString[0] == ':' && rawString[1] == ' '){
+    rawString = rawString.slice(2);
+  }
   return rawString.replaceAll(imageRegEx, '').replaceAll('\n', ' ').trim();
 }
 
@@ -54,24 +57,26 @@ export function getLinkFromRawData(mediaMeta:MediaMeta[]):string[]{
   return mediaData.map(media => media['url']);
 }
 
-function exportFile(data:any, fileType:string, platform: SocialCommunity){
+function exportFile(data:any, fileType:string, platform: SocialCommunity, author: string, board: string){
   const blob = new Blob([data], {type: fileType});
-  const fileName = platform + '_comments.csv';
+  const fileName = platform + '_' + author + '_' + board + '_comments.csv';
   saveAs(blob, fileName);
 }
 
-export function exportToCsv(commentList: string[], linkList: string[], platform: SocialCommunity): void {
+export function exportToCsv(metalines: ArticleMeta, commentList: string[], linkList: string[], platform: SocialCommunity): void {
   const commentHeader: TableColumnType = TableColumnType.COMMENT;
   const linkHeader: TableColumnType = TableColumnType.LINK;
 
   const data = [
+    [metalines.title, metalines.board, metalines.author, metalines.timeStamp],
+    ['', ''],
     [commentHeader, ...commentList],
     ['', ''],
     [linkHeader, ...linkList]
   ];
 
   const csvContent = data.map(row => row.join('\n')).join('\n');
-  exportFile(csvContent, 'text/csv', platform);
+  exportFile(csvContent, 'text/csv', platform, metalines.author, metalines.board);
 }
 
 export function resetStepper(stepper: MatStepper, service: ServiceType){

@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DcardService } from 'src/app/services/dcard.service';
-import { DcardPageHeader } from '../../static_string';
 import { DcardCommentParams, SocialCommunity } from 'src/app/types';
 import { MatStepper } from '@angular/material/stepper';
 import { resetStepper } from 'src/app/utils';
@@ -12,7 +11,6 @@ import { resetStepper } from 'src/app/utils';
 })
 export class DcardPage implements OnInit{
   @ViewChild('stepper') stepper!: MatStepper;
-  PageHeader = DcardPageHeader;
   SocialCommunity = SocialCommunity;
   commentDataList:DcardCommentParams[] = [];
   constructor(readonly dcardService: DcardService){}

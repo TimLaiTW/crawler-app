@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { DcardService } from 'src/app/services/dcard.service';
-import { DcardPageHeader } from '../../../static_string';
 import { jsonValidator, getMsgFromRawData, getLinkFromRawData, dcardUrlRegEx } from '../../../utils';
 import { TIMEOUT_IN_MILLID } from '../../../constants';
 import { MatDialog } from '@angular/material/dialog';
@@ -15,7 +14,6 @@ import { DuplicateCommentsDialog } from '../../dialogs/duplicate_comments_dialog
   styleUrls: ['./dcard_config_step.scss']
 })
 export class DcardConfigStep implements OnInit{
-  PageHeader = DcardPageHeader;
   dcardDataFormGroup!: FormGroup;
   requestTime = 0;
   disableOpenPageBtn = true;

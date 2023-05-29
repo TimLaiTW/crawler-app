@@ -85,13 +85,13 @@ export class PttService {
 
       let commentText = textProp.textContent;
       const author = comment.querySelector('span.push-userid')?.textContent || '';
-
+      let msg = getMsgFromRawData(commentText);
       if (this.isSameAuthor(author, currentDataList)){
-        currentDataList[currentDataList.length - 1].comment += textProp.textContent;
+        currentDataList[currentDataList.length - 1].comment += msg;
       } else {
         const links = commentText.match(imageRegEx)?.map(link => link);
         const commentData:PttCommentParams = {
-          comment: getMsgFromRawData(commentText),
+          comment: msg,
           link: links || [],
           host:author === this.articleAuthor,
           author: author || '',
@@ -103,41 +103,6 @@ export class PttService {
 
     this.setCommentDataList(currentDataList);
   }
-
-  // private formatRawData() {
-  //   const htmlString = this.rawDataChange.getValue();
-  //   const parser = new DOMParser();
-  //   const doc = parser.parseFromString(htmlString, "text/html");
-
-  //   this.getArticleAuthor(doc);
-  //   const currentDataList:PttCommentParams[] = [];
-
-  //   const comments = doc.querySelectorAll('[itemprop="comment"]');
-  //   for (let i = 0; i < comments.length; i++){
-  //     const comment = comments[i];
-  //     const textProp = comment.querySelector('[itemprop="text"] span');
-  //     if (!textProp || !textProp.textContent){  continue; }
-
-  //     let commentText = textProp.textContent;
-  //     const author = comment.querySelector('[itemprop="author"] [itemprop="name"] a span')?.textContent || '';
-
-  //     if (this.isSameAuthor(author, currentDataList)){
-  //       currentDataList[currentDataList.length - 1].comment += textProp.textContent;
-  //     } else {
-  //       const links = commentText.match(imageRegEx)?.map(link => link);
-  //       const commentData:PttCommentParams = {
-  //         comment: getMsgFromRawData(commentText),
-  //         link: links || [],
-  //         host:author === this.articleAuthor,
-  //         author: author || '',
-  //       };
-  
-  //       currentDataList.push(commentData);
-  //     }
-  //   }
-
-  //   this.setCommentDataList(currentDataList);
-  // }
 
 	setCommentDataList(commentsData: PttCommentParams[]){
 		this.commentDataListChange.next(commentsData);

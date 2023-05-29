@@ -3,7 +3,7 @@ import { DcardRawDataType, TableColumnType, SocialCommunity, ServiceType, Articl
 import { saveAs } from 'file-saver';
 import { MatStepper } from '@angular/material/stepper';
 
-export const pttUrlRegEx: RegExp = /https?:\/\/www\.ptt\.cc\/bbs\/[a-zA-Z]+\/.*/;
+export const pttUrlRegEx: RegExp = /https?:\/\/www\.ptt\.cc\/bbs\/[a-zA-Z_]+\/[a-zA-Z0-9\._-]+/;
 export const dcardUrlRegEx: RegExp = /https?:\/\/www\.dcard\.tw\/f\/[a-zA-Z]+\/.*/;
 export const imageRegEx: RegExp = /https?:\/\/\S+\.jpe?g|https?:\/\/\S+\.png/g;
 export const numRegEx: RegExp = /^[0-9]*$/;
@@ -63,11 +63,11 @@ function exportFile(data:any, fileType:string, platform: SocialCommunity, metali
   let fileName = platform.toString();
   if (platform === SocialCommunity.DCARD){
     const title =  metalines.title ? '_' + metalines.title : '';
-    fileName += title + '_comments.csv';
+    fileName += title;
   }else if (platform === SocialCommunity.PTT){
-    fileName += '_' + metalines.author + '_' + metalines.board + '_comments.csv';
+    fileName += '_' + metalines.author + '_' + metalines.board;
   }
-  saveAs(blob, fileName);
+  saveAs(blob, fileName + '_comments.csv');
 }
 
 export function exportToCsv(metalines: ArticleMeta, commentList: string[], linkList: string[], platform: SocialCommunity): void {

@@ -1,9 +1,5 @@
 <div class="main-content">
-    <page-header-section
-        [header]="PageHeader.Config.Title"
-        [descrp]="PageHeader.Config.Descrip"
-        [hints]="PageHeader.Config.Hints">
-    </page-header-section>
+    <div class="page-header">Enter Dcard URL</div>
     <form [formGroup]="dcardDataFormGroup">
         <mat-form-field class="article-form" appearance="outline">
             <mat-label>Dcard URL</mat-label>
@@ -22,7 +18,7 @@
         </ng-container>
         <div class="horizontal-gutter-extra-extra-small"></div>
         <button mat-raised-button color="primary" class="cmt-data-btn" (click)="openDcardRawData()" [disabled]="disableOpenPageBtn">Open raw data page</button>
-        <div class="horizontal-gutter-medium"></div>
+        <div class="horizontal-gutter-extra-large"></div>
         <mat-form-field class="article-form" appearance="outline">
             <textarea matInput formControlName="jsonCtrl" cols="10" rows="10" required placeholder="Paste the content here."></textarea>
             <mat-error *ngIf="jsonCtrl && (jsonCtrl.errors?.['required'])">

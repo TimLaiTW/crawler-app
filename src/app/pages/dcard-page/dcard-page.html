@@ -1,18 +1,16 @@
 <div class="stepper">
     <mat-horizontal-stepper linear="true" #stepper>
         <mat-step [completed]="commentDataList.length > 0">
-            <ng-template matStepLabel>{{PageHeader.Config.Title}}</ng-template>
+            <ng-template matStepLabel>Enter Dcard URL</ng-template>
             <dcard-config-step></dcard-config-step>
-            <div class="horizontal-gutter-extra-large"></div>
             <div class="horizontal-gutter-extra-large"></div>
             <div class="action-btn-group">
                 <button class="action-btn" mat-raised-button matStepperNext [disabled]="!commentDataList.length">Next: process raw data</button>
             </div>
         </mat-step>
         <mat-step>
-            <ng-template matStepLabel>{{PageHeader.Results.Title}}</ng-template>
+            <ng-template matStepLabel>Comment results</ng-template>
             <results-step [socialCommunity]="SocialCommunity.DCARD"></results-step>
-            <div class="horizontal-gutter-extra-large"></div>
             <div class="horizontal-gutter-extra-large"></div>
             <div class="action-btn-group">
                 <button class="action-btn" mat-raised-button matStepperPrevious>Back: add more comments</button>

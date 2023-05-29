@@ -2,7 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { DcardService } from '../../../services/dcard.service';
 import { PttService } from '../../../services/ptt.service';
 import { SocialCommunity, DcardCommentParams, PttCommentParams, ArticleMeta } from 'src/app/types';
-import { DcardPageHeader } from '../../../static_string';
 import { exportToCsv } from '../../../utils';
 import { Observable } from 'rxjs';
 
@@ -13,7 +12,6 @@ import { Observable } from 'rxjs';
 })
 export class ResultsStep implements OnInit{
   @Input() socialCommunity: SocialCommunity = SocialCommunity.DCARD
-  PageHeader = DcardPageHeader;
   metalines!:ArticleMeta;
   commentList:string[] = [];
   linkList:string[] = [];

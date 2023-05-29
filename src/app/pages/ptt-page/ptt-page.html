@@ -1,18 +1,16 @@
 <div class="stepper">
     <mat-horizontal-stepper linear="true" #stepper>
         <mat-step [completed]="commentDataList.length > 0">
-            <ng-template matStepLabel>{{PageHeader.Config.Title}}</ng-template>
+            <ng-template matStepLabel>Enter PTT URL</ng-template>
             <ptt-config-step></ptt-config-step>
-            <div class="horizontal-gutter-extra-large"></div>
             <div class="horizontal-gutter-extra-large"></div>
             <div class="action-btn-group">
                 <button class="action-btn" mat-raised-button matStepperNext [disabled]="!commentDataList.length">Next: see results</button>
             </div>
         </mat-step>
         <mat-step>
-            <ng-template matStepLabel>{{PageHeader.Results.Title}}</ng-template>
+            <ng-template matStepLabel>Comment results</ng-template>
             <results-step [socialCommunity]="SocialCommunity.PTT"></results-step>
-            <div class="horizontal-gutter-extra-large"></div>
             <div class="horizontal-gutter-extra-large"></div>
             <div class="action-btn-group">
                 <button class="action-btn" mat-raised-button (click)="done()">Reset</button>

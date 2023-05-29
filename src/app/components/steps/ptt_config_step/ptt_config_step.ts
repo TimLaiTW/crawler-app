@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { PttPageHeader } from 'src/app/static_string';
 import { FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { PttService } from 'src/app/services/ptt.service';
 import { pttUrlRegEx } from '../../../utils';
@@ -11,7 +10,6 @@ import { TIMEOUT_IN_MILLID } from '../../../constants';
   styleUrls: ['./ptt_config_step.scss']
 })
 export class PttConfigStep implements OnInit{
-  PageHeader = PttPageHeader;
   urlFormGroup!: FormGroup;
   htmlFormGroup!: FormGroup;
   pttDataFormGroup!: FormGroup;
@@ -40,7 +38,7 @@ export class PttConfigStep implements OnInit{
       });
 
       this.htmlCtrl.valueChanges.subscribe((value: string | null) => {
-        this.disableCollectBtn = value == null || value == '' || this.urlCtrl?.invalid ? true : false;
+        // this.disableCollectBtn = value == null || value == '' || this.urlCtrl?.invalid ? true : false;
       });
     }
 

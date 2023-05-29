@@ -1,3 +1,25 @@
+<div class="page-container">
+    <div class="site-header">
+        <div class="site-title">Crawl for Comments</div>
+        <div class="platform-selection">
+            <mat-button-toggle-group [formControl]="socialCommunity">
+                <mat-button-toggle [value]="SocialCommunity.DCARD" (click)="dcardService.resetAll()">
+                <img src="../assets/icon-dcard.png" alt="">
+                </mat-button-toggle>
+                <mat-button-toggle class="ptt-btn-toggle" [value]="SocialCommunity.PTT" (click)="pttService.resetAll()">PTT</mat-button-toggle>
+            </mat-button-toggle-group>
+        </div>
+    </div>
 
-<dcard-page></dcard-page>
-<ptt-page></ptt-page>
+    <div class="step-container">
+        <ng-template #dcardComp>
+            <dcard-page></dcard-page>
+        </ng-template>
+        
+        <ng-template #pttComp>
+            <ptt-page></ptt-page>
+        </ng-template>
+
+        <ng-container *ngIf="socialCommunity.value === SocialCommunity.DCARD; then dcardComp else pttComp"></ng-container>
+    </div>
+</div>

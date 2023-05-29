@@ -28,7 +28,7 @@ import { DuplicateCommentsDialog } from './components/dialogs/duplicate_comments
     PageHeaderSection,
     PttConfigStep,
     ResultsStep,
-    DuplicateCommentsDialog
+    DuplicateCommentsDialog,
   ],
   imports: [
     BrowserModule,

@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
-import {PttService} from './services/ptt.service';
+import { SocialCommunity } from './types';
+import { FormControl } from '@angular/forms';
+import { DcardService } from './services/dcard.service';
+import { PttService } from './services/ptt.service';
 
 @Component({
   selector: 'app-root',
@@ -7,5 +10,7 @@ import {PttService} from './services/ptt.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'crawlers';
+  SocialCommunity = SocialCommunity;
+  socialCommunity = new FormControl(SocialCommunity.DCARD);
+  constructor(readonly dcardService: DcardService, readonly pttService: PttService){}
 }

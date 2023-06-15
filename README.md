@@ -18,6 +18,8 @@ Steps for usage:
 2. Click "Collect comments data" to process the comments and images.
 3. Once everything is done, click "Next: see results" to direct to the comment result page.
 
+**Note**: To prevent being blacklisted, the "Collect comments data" button has a 5-second cooldown.
+
 ## [Comment Result Page](https://paste.pics/e928adb60adf90785731e9da45e6e465)
 - Both Dcard result page and Ptt result page look alike, it generates a comments table and a image table with a download button.
 
